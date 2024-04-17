@@ -10,27 +10,30 @@ interface NewsService {
 
     @Headers("x-api-key: $API_KEY")
     @GET("search-news")
-    fun getLatestNews(
-        @Query("earliest-publish-date") date: String,
+    suspend fun getLatestNews(
         @Query("language") language: String,
+        @Query("sort") sort: String = "publish-time",
+        @Query("sort-direction") sortDirection: String = "DESC",
         @Query("number") number: Int
     ): NewsSearchResponse
 
     @Headers("x-api-key: $API_KEY")
     @GET("search-news")
-    fun searchNews(
+    suspend fun searchNews(
         @Query("text") query: String,
-        @Query("earliest-publish-date") date: String,
         @Query("language") language: String,
+        @Query("sort") sort: String = "publish-time",
+        @Query("sort-direction") sortDirection: String = "DESC",
         @Query("number") number: Int
     ): NewsSearchResponse
 
     @Headers("x-api-key: $API_KEY")
     @GET("search-news")
-    fun searchNews(
+    suspend fun searchNews(
         @Query("text") query: String,
-        @Query("earliest-publish-date") date: String,
         @Query("language") language: String,
+        @Query("sort") sort: String = "publish-time",
+        @Query("sort-direction") sortDirection: String = "DESC",
         @Query("number") number: Int,
         @Query("offset") offset: Int
     ): NewsSearchResponse
