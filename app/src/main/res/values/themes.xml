@@ -6,6 +6,6 @@
 
     <style name="RoundedRectangle">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">8%</item>
+        <item name="cornerSize">10%</item>
     </style>
 </resources>
