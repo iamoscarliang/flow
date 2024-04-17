@@ -19,5 +19,5 @@ data class News(
     val publishDate: String?,
     @SerializedName("author")
     val author: String?,
-    val bookmark: Boolean = false
+    var bookmark: Boolean = false
 )
