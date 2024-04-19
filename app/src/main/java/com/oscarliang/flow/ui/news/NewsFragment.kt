@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.snackbar.Snackbar
 import com.oscarliang.flow.databinding.FragmentNewsBinding
 import com.oscarliang.flow.ui.common.CategoryListAdapter
@@ -79,19 +80,18 @@ class NewsFragment : Fragment() {
                 viewModel.refresh()
             }
         }
+        binding.appbar.addOnOffsetChangedListener { _, verticalOffset ->
+            binding.swipeRefreshLayout.isEnabled = verticalOffset == 0
+        }
         initRecyclerView()
     }
 
     private fun initRecyclerView() {
         viewModel.latestNews.observe(viewLifecycleOwner) { result ->
-            result?.data?.let {
-                latestNewsAdapter.submitList(it)
-            }
+            latestNewsAdapter.submitList(result?.data)
         }
         viewModel.news.observe(viewLifecycleOwner) { result ->
-            result?.data?.let {
-                newsAdapter.submitList(it)
-            }
+            newsAdapter.submitList(result?.data)
         }
         viewModel.categories.observe(viewLifecycleOwner) { result ->
             categoryAdapter.submitList(result?.data)
