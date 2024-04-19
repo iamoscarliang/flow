@@ -4,8 +4,15 @@ import com.google.gson.annotations.SerializedName
 import com.oscarliang.flow.model.News
 
 data class NewsSearchResponse(
-    @SerializedName("available")
-    val available: Int = 0,
-    @SerializedName("news")
-    val news: List<News>
-)
+    @SerializedName("articles")
+    val article: Article,
+) {
+
+    data class Article(
+        @SerializedName("totalResults")
+        val total: Int = 0,
+        @SerializedName("results")
+        val news: List<News>
+    )
+
+}

@@ -4,38 +4,54 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
 
-private const val API_KEY = "4665ddad2c5941a39c4d0005331c7238"
+private const val API_KEY = "c5516eeb-b7ce-45c5-b21b-5588a8d670f4"
 
 interface NewsService {
 
-    @Headers("x-api-key: $API_KEY")
-    @GET("search-news")
+    @GET("api/v1/article/getArticles")
     suspend fun getLatestNews(
-        @Query("language") language: String,
-        @Query("sort") sort: String = "publish-time",
-        @Query("sort-direction") sortDirection: String = "DESC",
-        @Query("number") number: Int
+        @Query("apiKey") key: String = API_KEY,
+        @Query("lang") language: String = "eng",
+        @Query("dateStart") date: String,
+        @Query("articlesCount") count: Int
     ): NewsSearchResponse
 
-    @Headers("x-api-key: $API_KEY")
-    @GET("search-news")
-    suspend fun searchNews(
-        @Query("text") query: String,
-        @Query("language") language: String,
-        @Query("sort") sort: String = "publish-time",
-        @Query("sort-direction") sortDirection: String = "DESC",
-        @Query("number") number: Int
+    @GET("api/v1/article/getArticles")
+    suspend fun searchNewsByCategory(
+        @Query("apiKey") key: String = API_KEY,
+        @Query("lang") language: String = "eng",
+        @Query("categoryUri") category: String,
+        @Query("dateStart") date: String,
+        @Query("articlesCount") count: Int
     ): NewsSearchResponse
 
-    @Headers("x-api-key: $API_KEY")
-    @GET("search-news")
-    suspend fun searchNews(
-        @Query("text") query: String,
-        @Query("language") language: String,
-        @Query("sort") sort: String = "publish-time",
-        @Query("sort-direction") sortDirection: String = "DESC",
-        @Query("number") number: Int,
-        @Query("offset") offset: Int
+    @GET("api/v1/article/getArticles")
+    suspend fun searchNewsByCategory(
+        @Query("apiKey") key: String = API_KEY,
+        @Query("lang") language: String = "eng",
+        @Query("categoryUri") category: String,
+        @Query("dateStart") date: String,
+        @Query("articlesCount") count: Int,
+        @Query("articlesPage") page: Int
+    ): NewsSearchResponse
+
+    @GET("api/v1/article/getArticles")
+    suspend fun searchNewsByKeyword(
+        @Query("apiKey") key: String = API_KEY,
+        @Query("lang") language: String = "eng",
+        @Query("forceMaxDataTimeWindow") maxDataTime: Int = 7,
+        @Query("keyword") query: String,
+        @Query("articlesCount") count: Int
+    ): NewsSearchResponse
+
+    @GET("api/v1/article/getArticles")
+    suspend fun searchNewsByKeyword(
+        @Query("apiKey") key: String = API_KEY,
+        @Query("lang") language: String = "eng",
+        @Query("forceMaxDataTimeWindow") maxDataTime: Int = 7,
+        @Query("keyword") query: String,
+        @Query("articlesCount") count: Int,
+        @Query("articlesPage") page: Int
     ): NewsSearchResponse
 
 }

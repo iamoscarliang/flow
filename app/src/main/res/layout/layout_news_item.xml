@@ -33,6 +33,7 @@
                 android:layout_height="0dp"
                 android:scaleType="centerCrop"
                 app:imageUrl="@{news.image}"
+                android:layout_margin="@dimen/margin_medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -61,12 +62,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_large"
-                android:text="@{news.publishDate}"
+                android:text="@{news.date}"
                 android:textColor="@color/gray_700"
                 android:textSize="@dimen/text_body_medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/text_title"
-                tools:text="yyyy-MM-dd HH:mm" />
+                tools:text="yyyy-MM-dd" />
 
             <ImageButton
                 android:id="@+id/btn_bookmark"

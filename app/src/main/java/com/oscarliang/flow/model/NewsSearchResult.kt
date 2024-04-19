@@ -10,6 +10,6 @@ import com.oscarliang.flow.db.NewsTypeConverters
 data class NewsSearchResult(
     @PrimaryKey
     val query: String,
-    val available: Int,
-    val newsIds: List<Int>
+    val total: Int,
+    val newsIds: List<String>
 )

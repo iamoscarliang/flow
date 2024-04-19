@@ -7,27 +7,30 @@ import com.oscarliang.flow.api.NewsSearchResponse
 import com.oscarliang.flow.api.NewsService
 import com.oscarliang.flow.db.NewsDao
 import com.oscarliang.flow.db.NewsDatabase
-import com.oscarliang.flow.model.LatestNewsResult
 import com.oscarliang.flow.model.News
 import com.oscarliang.flow.model.NewsSearchResult
 import com.oscarliang.flow.util.AbsentLiveData
 import com.oscarliang.flow.util.FetchNextSearchPageTask
 import com.oscarliang.flow.util.NetworkBoundResource
+import com.oscarliang.flow.util.RateLimiter
 import com.oscarliang.flow.util.Resource
+
+private const val LATEST_NEWS_KEY= "latest"
 
 class NewsRepository(
     private val db: NewsDatabase,
     private val newsDao: NewsDao,
-    private val service: NewsService
+    private val service: NewsService,
+    private val rateLimiter: RateLimiter<String>
 ) {
 
     fun getLatestNews(
-        language: String,
-        number: Int
+        date: String,
+        count: Int
     ): LiveData<Resource<List<News>>> {
         return object : NetworkBoundResource<List<News>, NewsSearchResponse>() {
             override suspend fun query(): List<News> {
-                val result = newsDao.findLatestNewsResult(language)
+                val result = newsDao.findNewsSearchResult(LATEST_NEWS_KEY)
                 return if (result == null) {
                     listOf()
                 } else {
@@ -36,7 +39,7 @@ class NewsRepository(
             }
 
             override fun queryObservable(): LiveData<List<News>> {
-                return newsDao.getLatestNewsResult(language).switchMap { searchData ->
+                return newsDao.getNewsSearchResult(LATEST_NEWS_KEY).switchMap { searchData ->
                     if (searchData == null) {
                         AbsentLiveData.create()
                     } else {
@@ -47,13 +50,13 @@ class NewsRepository(
 
             override suspend fun fetch(): NewsSearchResponse {
                 return service.getLatestNews(
-                    language = language,
-                    number = number
+                    date = date,
+                    count = count
                 )
             }
 
             override suspend fun saveFetchResult(data: NewsSearchResponse) {
-                val news = data.news
+                val news = data.article.news
                 val bookmarks = newsDao.findBookmarks()
                 news.forEach { newData ->
                     // We prevent overriding bookmark field
@@ -62,26 +65,35 @@ class NewsRepository(
                     }
                 }
                 val newsIds = news.map { it.id }
-                val latestNewsResult = LatestNewsResult(
-                    query = language,
+                val result = NewsSearchResult(
+                    query = LATEST_NEWS_KEY,
+                    total = data.article.total,
                     newsIds = newsIds
                 )
                 db.withTransaction {
                     newsDao.insertNews(news)
-                    newsDao.insertLatestNewsResult(latestNewsResult)
+                    newsDao.insertNewsSearchResult(result)
                 }
+            }
+
+            override fun shouldFetch(data: List<News>): Boolean {
+                return rateLimiter.shouldFetch(LATEST_NEWS_KEY)
+            }
+
+            override fun onFetchFailed(exception: Exception) {
+                rateLimiter.reset(LATEST_NEWS_KEY)
             }
         }.asLiveData()
     }
 
     fun searchNews(
-        query: String,
-        language: String,
-        number: Int
+        category: String,
+        date: String,
+        count: Int
     ): LiveData<Resource<List<News>>> {
         return object : NetworkBoundResource<List<News>, NewsSearchResponse>() {
             override suspend fun query(): List<News> {
-                val result = newsDao.findNewsSearchResult(query)
+                val result = newsDao.findNewsSearchResult(category)
                 return if (result == null) {
                     listOf()
                 } else {
@@ -90,25 +102,25 @@ class NewsRepository(
             }
 
             override fun queryObservable(): LiveData<List<News>> {
-                return newsDao.getNewsSearchResult(language).switchMap { searchData ->
-                    if (searchData == null) {
+                return newsDao.getNewsSearchResult(category).switchMap { result ->
+                    if (result == null) {
                         AbsentLiveData.create()
                     } else {
-                        newsDao.getNewsByOrder(searchData.newsIds)
+                        newsDao.getNewsByOrder(result.newsIds)
                     }
                 }
             }
 
             override suspend fun fetch(): NewsSearchResponse {
-                return service.searchNews(
-                    query = query,
-                    language = language,
-                    number = number
+                return service.searchNewsByCategory(
+                    category = category,
+                    date = date,
+                    count = count
                 )
             }
 
             override suspend fun saveFetchResult(data: NewsSearchResponse) {
-                val news = data.news
+                val news = data.article.news
                 val bookmarks = newsDao.findBookmarks()
                 news.forEach { newData ->
                     // We prevent overriding bookmark field
@@ -117,28 +129,36 @@ class NewsRepository(
                     }
                 }
                 val newsIds = news.map { it.id }
-                val newsSearchResult = NewsSearchResult(
-                    query = language,
-                    available = data.available,
+                val result = NewsSearchResult(
+                    query = category,
+                    total = data.article.total,
                     newsIds = newsIds
                 )
                 db.withTransaction {
                     newsDao.insertNews(news)
-                    newsDao.insertNewsSearchResult(newsSearchResult)
+                    newsDao.insertNewsSearchResult(result)
                 }
+            }
+
+            override fun shouldFetch(data: List<News>): Boolean {
+                return rateLimiter.shouldFetch(category)
+            }
+
+            override fun onFetchFailed(exception: Exception) {
+                rateLimiter.reset(category)
             }
         }.asLiveData()
     }
 
     fun searchNextPage(
-        query: String,
-        language: String,
-        number: Int
+        category: String,
+        date: String,
+        count: Int
     ): LiveData<Resource<Boolean>?> {
         return FetchNextSearchPageTask(
-            query = query,
-            language = language,
-            number = number,
+            category = category,
+            date = date,
+            count = count,
             db = db,
             newsDao = newsDao,
             service = service
@@ -149,7 +169,7 @@ class NewsRepository(
         return newsDao.getBookmarks()
     }
 
-    fun getNewsById(id: Int): LiveData<News> {
+    fun getNewsById(id: String): LiveData<News> {
         return newsDao.getNewsById(id)
     }
 

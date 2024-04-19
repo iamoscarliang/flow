@@ -3,4 +3,8 @@
     <string name="menu_news">News</string>
     <string name="menu_search">Search</string>
     <string name="menu_bookmarks">Bookmarks</string>
+
+    <string name="no_more_result">No more result</string>
+    <string name="retry">Retry</string>
+    <string name="unknown_error">Unknown error</string>
 </resources>

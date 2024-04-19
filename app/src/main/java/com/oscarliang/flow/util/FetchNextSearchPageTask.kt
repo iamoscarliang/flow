@@ -8,34 +8,34 @@ import com.oscarliang.flow.db.NewsDatabase
 import com.oscarliang.flow.model.NewsSearchResult
 
 class FetchNextSearchPageTask(
-    private val query: String,
-    private val language: String,
-    private val number: Int,
+    private val category: String,
+    private val date: String,
+    private val count: Int,
     private val db: NewsDatabase,
     private val newsDao: NewsDao,
     private val service: NewsService
 ) {
 
     fun asLiveData() = liveData {
-        val current = newsDao.findNewsSearchResult(query)
-        if (current == null) {
+        val result = newsDao.findNewsSearchResult(category)
+        if (result == null) {
             emit(null)
             return@liveData
         }
-        val count = current.newsIds.size
-        if (count >= current.available) {
+        val current = result.newsIds.size
+        if (current >= result.total) {
             emit(Resource.success(false))
             return@liveData
         }
 
         try {
-            val response = service.searchNews(
-                query = query,
-                language = language,
-                number = number,
-                offset = count
+            val response = service.searchNewsByCategory(
+                category = category,
+                date = date,
+                count = count,
+                page = current / count + 1
             )
-            val news = response.news
+            val news = response.article.news
             val bookmarks = newsDao.findBookmarks()
             news.forEach { newData ->
                 // We prevent overriding bookmark field
@@ -45,12 +45,12 @@ class FetchNextSearchPageTask(
             }
 
             // We merge all new search result into current result list
-            val newsIds = mutableListOf<Int>()
-            newsIds.addAll(current.newsIds)
+            val newsIds = mutableListOf<String>()
+            newsIds.addAll(result.newsIds)
             newsIds.addAll(news.map { it.id })
             val merged = NewsSearchResult(
-                query = query,
-                available = response.available,
+                query = category,
+                total = response.article.total,
                 newsIds = newsIds
             )
             db.withTransaction {
