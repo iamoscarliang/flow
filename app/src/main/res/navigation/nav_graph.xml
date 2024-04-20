@@ -17,4 +17,10 @@
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search" />
 
+    <fragment
+        android:id="@+id/bookmarksFragment"
+        android:name="com.oscarliang.flow.ui.bookmarks.BookmarksFragment"
+        android:label="BookmarksFragment"
+        tools:layout="@layout/fragment_bookmarks"/>
+
 </navigation>
