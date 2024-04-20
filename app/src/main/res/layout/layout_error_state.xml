@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        app:showHide="@{resource.data.size() == 0 &amp;&amp; resource.state == State.ERROR}">
+        app:showHide="@{resource.state == State.ERROR &amp;&amp; resource.data.size() == 0}">
 
         <TextView
             android:id="@+id/text_error"

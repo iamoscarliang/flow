@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="androidx.lifecycle.LiveData" />
+
+        <import type="com.oscarliang.flow.util.Resource" />
+
+        <import type="com.oscarliang.flow.util.State" />
+
+        <import type="java.util.List" />
+
+        <import type="com.oscarliang.flow.model.News" />
+
+        <variable
+            name="isRunning"
+            type="boolean" />
+
+        <variable
+            name="hasMore"
+            type="boolean" />
+
+        <variable
+            name="listener"
+            type="com.oscarliang.flow.ui.common.RetryListener" />
+
+        <variable
+            name="searchResults"
+            type="LiveData&lt;Resource&lt;List&lt;News>>>" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_bg">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/margin_medium"
+                    android:src="@drawable/ic_search"
+                    app:tint="@color/gray_500" />
+
+                <EditText
+                    android:id="@+id/edit_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/gray_500"
+                    android:hint="@string/search_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="textNoSuggestions"
+                    android:textColor="@color/black"
+                    android:textCursorDrawable="@null" />
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/news_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="LinearLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/layout_loading_state"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <include
+                    android:id="@+id/layout_loading_state"
+                    layout="@layout/layout_loading_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/layout_loading_state_height"
+                    app:hasMore="@{hasMore}"
+                    app:isRunning="@{isRunning}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shimmer_auto_start="true"
+                    app:showHide="@{searchResults.state == State.LOADING &amp;&amp; searchResults.data.size() == 0}">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/layout_news_item_shimmer" />
+
+                        <include layout="@layout/layout_news_item_shimmer" />
+
+                    </LinearLayout>
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/empty_search_result"
+            android:textColor="@color/gray_500"
+            android:textSize="@dimen/text_title_medium"
+            app:showHide="@{searchResults.state == State.SUCCESS &amp;&amp; searchResults.data.size == 0}" />
+
+        <include
+            android:id="@+id/layout_error_state"
+            layout="@layout/layout_error_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:listener="@{listener}"
+            app:resource="@{searchResults}" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

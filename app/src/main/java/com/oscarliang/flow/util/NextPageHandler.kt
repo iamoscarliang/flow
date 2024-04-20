@@ -3,15 +3,11 @@ package com.oscarliang.flow.util
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.oscarliang.flow.repository.NewsRepository
 
-class NextPageHandler(
-    private val repository: NewsRepository
-) : Observer<Resource<Boolean>?> {
+class NextPageHandler : Observer<Resource<Boolean>?> {
 
     val loadMoreState = MutableLiveData<LoadMoreState>()
     private var nextPageLiveData: LiveData<Resource<Boolean>?>? = null
-    private var query: String? = null
     private var hasMore: Boolean = false
 
     init {
@@ -19,16 +15,13 @@ class NextPageHandler(
     }
 
     fun queryNextPage(
-        query: String,
-        date: String,
-        count: Int
+        nextPageQuery: () -> LiveData<Resource<Boolean>?>
     ) {
-        if (this.query == query) {
+        if (!hasMore) {
             return
         }
         unregister()
-        this.query = query
-        nextPageLiveData = repository.searchNextPage(query, date, count)
+        nextPageLiveData = nextPageQuery()
         loadMoreState.value = LoadMoreState(
             isRunning = true,
             hasMore = true,
@@ -60,7 +53,7 @@ class NextPageHandler(
                     loadMoreState.setValue(
                         LoadMoreState(
                             isRunning = false,
-                            hasMore = hasMore,
+                            hasMore = true,
                             errorMessage = value.message
                         )
                     )
@@ -76,9 +69,6 @@ class NextPageHandler(
     private fun unregister() {
         nextPageLiveData?.removeObserver(this)
         nextPageLiveData = null
-        if (hasMore) {
-            query = null
-        }
     }
 
     fun reset() {

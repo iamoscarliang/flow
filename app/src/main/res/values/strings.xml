@@ -4,6 +4,9 @@
     <string name="menu_search">Search</string>
     <string name="menu_bookmarks">Bookmarks</string>
 
+    <string name="empty_search">Type something to search</string>
+    <string name="search_hint">Search news</string>
+    <string name="empty_search_result">No results found</string>
     <string name="no_more_result">No more result</string>
     <string name="retry">Retry</string>
     <string name="unknown_error">Unknown error</string>

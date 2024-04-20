@@ -78,7 +78,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/margin_large"
-                            app:showHide="@{latestNews.data.size() != 0}"
                             app:dotsColor="@color/gray_500"
                             app:dotsSize="@dimen/image_dot_height"
                             app:dotsSpacing="@dimen/margin_small"
@@ -87,7 +86,8 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:progressMode="false"
-                            app:selectedDotColor="@color/purple_500" />
+                            app:selectedDotColor="@color/purple_500"
+                            app:showHide="@{latestNews.data.size() != 0}" />
 
                         <com.facebook.shimmer.ShimmerFrameLayout
                             android:layout_width="match_parent"
@@ -118,7 +118,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
-                            app:layoutManager="LinearLayoutManager" />
+                            app:layoutManager="LinearLayoutManager"
+                            app:showHide="@{latestNews.data.size() != 0}" />
 
                     </androidx.appcompat.widget.Toolbar>
 
@@ -167,7 +168,7 @@
                         app:shimmer_auto_start="true"
                         app:showHide="@{news.state == State.LOADING &amp;&amp; news.data.size() == 0}">
 
-                            <include layout="@layout/layout_news_item_shimmer" />
+                        <include layout="@layout/layout_news_item_shimmer" />
 
                     </com.facebook.shimmer.ShimmerFrameLayout>
 

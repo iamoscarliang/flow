@@ -86,7 +86,7 @@ class NewsRepository(
         }.asLiveData()
     }
 
-    fun searchNews(
+    fun searchCategory(
         category: String,
         date: String,
         count: Int
@@ -112,7 +112,7 @@ class NewsRepository(
             }
 
             override suspend fun fetch(): NewsSearchResponse {
-                return service.searchNewsByCategory(
+                return service.searchCategory(
                     category = category,
                     date = date,
                     count = count
@@ -150,19 +150,162 @@ class NewsRepository(
         }.asLiveData()
     }
 
-    fun searchNextPage(
+    fun searchCategoryNextPage(
         category: String,
         date: String,
         count: Int
     ): LiveData<Resource<Boolean>?> {
-        return FetchNextSearchPageTask(
-            category = category,
-            date = date,
-            count = count,
-            db = db,
-            newsDao = newsDao,
-            service = service
-        ).asLiveData()
+        return object :FetchNextSearchPageTask<NewsSearchResult?>(){
+            override suspend fun query(): NewsSearchResult? {
+                return newsDao.findNewsSearchResult(category)
+            }
+
+            override fun shouldFetch(data: NewsSearchResult?): Boolean {
+                val current = data!!.newsIds.size
+                return current < data.total
+            }
+
+            override suspend fun fetchNextPage(data: NewsSearchResult?) {
+                val current = data!!.newsIds.size
+                val response = service.searchCategory(
+                    category = category,
+                    date = date,
+                    count = count,
+                    page = current / count + 1
+                )
+                val news = response.article.news
+                val bookmarks = newsDao.findBookmarks()
+                news.forEach { newData ->
+                    // We prevent overriding bookmark field
+                    newData.bookmark = bookmarks.any { currentData ->
+                        currentData.id == newData.id
+                    }
+                }
+
+                // We merge all new search result into current result list
+                val newsIds = mutableListOf<String>()
+                newsIds.addAll(data.newsIds)
+                newsIds.addAll(news.map { it.id })
+                val merged = NewsSearchResult(
+                    query = category,
+                    total = response.article.total,
+                    newsIds = newsIds
+                )
+                db.withTransaction {
+                    newsDao.insertNews(news)
+                    newsDao.insertNewsSearchResult(merged)
+                }
+            }
+        }.asLiveData()
+    }
+
+    fun searchNews(
+        keyword: String,
+        count: Int
+    ): LiveData<Resource<List<News>>> {
+        return object : NetworkBoundResource<List<News>, NewsSearchResponse>() {
+            override suspend fun query(): List<News> {
+                val result = newsDao.findNewsSearchResult(keyword)
+                return if (result == null) {
+                    listOf()
+                } else {
+                    newsDao.findNewsById(result.newsIds)
+                }
+            }
+
+            override fun queryObservable(): LiveData<List<News>> {
+                return newsDao.getNewsSearchResult(keyword).switchMap { result ->
+                    if (result == null) {
+                        AbsentLiveData.create()
+                    } else {
+                        newsDao.getNewsByOrder(result.newsIds)
+                    }
+                }
+            }
+
+            override suspend fun fetch(): NewsSearchResponse {
+                return service.searchNews(
+                    keyword = keyword,
+                    count = count
+                )
+            }
+
+            override suspend fun saveFetchResult(data: NewsSearchResponse) {
+                val news = data.article.news
+                val bookmarks = newsDao.findBookmarks()
+                news.forEach { newData ->
+                    // We prevent overriding bookmark field
+                    newData.bookmark = bookmarks.any { currentData ->
+                        currentData.id == newData.id
+                    }
+                }
+                val newsIds = news.map { it.id }
+                val result = NewsSearchResult(
+                    query = keyword,
+                    total = data.article.total,
+                    newsIds = newsIds
+                )
+                db.withTransaction {
+                    newsDao.insertNews(news)
+                    newsDao.insertNewsSearchResult(result)
+                }
+            }
+
+            override fun shouldFetch(data: List<News>): Boolean {
+                return rateLimiter.shouldFetch(keyword)
+            }
+
+            override fun onFetchFailed(exception: Exception) {
+                rateLimiter.reset(keyword)
+            }
+        }.asLiveData()
+    }
+
+    fun searchNewsNextPage(
+        keyword: String,
+        count: Int
+    ): LiveData<Resource<Boolean>?> {
+        return object :FetchNextSearchPageTask<NewsSearchResult?>(){
+            override suspend fun query(): NewsSearchResult? {
+                return newsDao.findNewsSearchResult(keyword)
+            }
+
+            override fun shouldFetch(data: NewsSearchResult?): Boolean {
+                val current = data!!.newsIds.size
+                return current < data.total
+            }
+
+            override suspend fun fetchNextPage(data: NewsSearchResult?) {
+                val current = data!!.newsIds.size
+                val response = service.searchNews(
+                    keyword = keyword,
+                    count = count,
+                    page = current / count + 1
+                )
+                val news = response.article.news
+                val bookmarks = newsDao.findBookmarks()
+                news.forEach { newData ->
+                    // We prevent overriding bookmark field
+                    newData.bookmark = bookmarks.any { currentData ->
+                        currentData.id == newData.id
+                    }
+                }
+
+                // We merge all new search result into current result list
+                val newsIds = mutableListOf<String>()
+                newsIds.addAll(data.newsIds)
+                newsIds.addAll(news.map { it.id })
+                val merged = NewsSearchResult(
+                    query = keyword,
+                    total = response.article.total,
+                    newsIds = newsIds
+                )
+                db.withTransaction {
+                    newsDao.insertNews(news)
+                    newsDao.insertNewsSearchResult(merged)
+                }
+            }
+        }.asLiveData()
     }
 
     fun getBookmarks(): LiveData<List<News>> {

@@ -6,6 +6,7 @@ import com.oscarliang.flow.db.NewsDatabase
 import com.oscarliang.flow.repository.CategoryRepository
 import com.oscarliang.flow.repository.NewsRepository
 import com.oscarliang.flow.ui.news.NewsViewModel
+import com.oscarliang.flow.ui.search.SearchViewModel
 import com.oscarliang.flow.util.RateLimiter
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -54,6 +55,10 @@ val appModule = module {
 
     viewModel {
         NewsViewModel(get(), get())
+    }
+
+    viewModel {
+        SearchViewModel(get())
     }
 
 }

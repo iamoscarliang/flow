@@ -1,7 +1,6 @@
 package com.oscarliang.flow.api
 
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.Query
 
 private const val API_KEY = "c5516eeb-b7ce-45c5-b21b-5588a8d670f4"
@@ -17,7 +16,7 @@ interface NewsService {
     ): NewsSearchResponse
 
     @GET("api/v1/article/getArticles")
-    suspend fun searchNewsByCategory(
+    suspend fun searchCategory(
         @Query("apiKey") key: String = API_KEY,
         @Query("lang") language: String = "eng",
         @Query("categoryUri") category: String,
@@ -26,7 +25,7 @@ interface NewsService {
     ): NewsSearchResponse
 
     @GET("api/v1/article/getArticles")
-    suspend fun searchNewsByCategory(
+    suspend fun searchCategory(
         @Query("apiKey") key: String = API_KEY,
         @Query("lang") language: String = "eng",
         @Query("categoryUri") category: String,
@@ -36,20 +35,20 @@ interface NewsService {
     ): NewsSearchResponse
 
     @GET("api/v1/article/getArticles")
-    suspend fun searchNewsByKeyword(
+    suspend fun searchNews(
         @Query("apiKey") key: String = API_KEY,
         @Query("lang") language: String = "eng",
         @Query("forceMaxDataTimeWindow") maxDataTime: Int = 7,
-        @Query("keyword") query: String,
+        @Query("keyword") keyword: String,
         @Query("articlesCount") count: Int
     ): NewsSearchResponse
 
     @GET("api/v1/article/getArticles")
-    suspend fun searchNewsByKeyword(
+    suspend fun searchNews(
         @Query("apiKey") key: String = API_KEY,
         @Query("lang") language: String = "eng",
         @Query("forceMaxDataTimeWindow") maxDataTime: Int = 7,
-        @Query("keyword") query: String,
+        @Query("keyword") keyword: String,
         @Query("articlesCount") count: Int,
         @Query("articlesPage") page: Int
     ): NewsSearchResponse
