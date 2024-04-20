@@ -39,7 +39,6 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:onRefreshListener="@{() -> listener.retry()}"
         app:refreshHide="@{latestNews.state == State.LOADING &amp;&amp; news.state == State.LOADING}">
 
@@ -79,6 +78,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="@dimen/margin_large"
+                            app:showHide="@{latestNews.data.size() != 0}"
                             app:dotsColor="@color/gray_500"
                             app:dotsSize="@dimen/image_dot_height"
                             app:dotsSpacing="@dimen/margin_small"
@@ -88,6 +88,19 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:progressMode="false"
                             app:selectedDotColor="@color/purple_500" />
+
+                        <com.facebook.shimmer.ShimmerFrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:shimmer_auto_start="true"
+                            app:showHide="@{latestNews.state == State.LOADING &amp;&amp; latestNews.data.size() == 0}">
+
+                            <include layout="@layout/layout_latest_news_item_shimmer" />
+
+                        </com.facebook.shimmer.ShimmerFrameLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -144,6 +157,19 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shimmer_auto_start="true"
+                        app:showHide="@{news.state == State.LOADING &amp;&amp; news.data.size() == 0}">
+
+                            <include layout="@layout/layout_news_item_shimmer" />
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

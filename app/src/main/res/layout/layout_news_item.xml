@@ -45,19 +45,18 @@
                 android:id="@+id/text_source"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{news.source.title}"
-                android:textColor="@color/white"
-                android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/padding_large"
-                android:paddingBottom="@dimen/padding_large"
-                android:paddingEnd="@dimen/margin_medium"
+                android:layout_margin="@dimen/margin_medium"
                 android:background="@drawable/ic_label"
                 android:backgroundTint="@color/purple_500"
-                android:layout_margin="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/margin_small"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingTop="@dimen/padding_large"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/padding_large"
+                android:text="@{news.source.title}"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_body_small"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toEndOf="@id/image_news"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Source" />
 
             <ImageButton
@@ -67,9 +66,9 @@
                 android:layout_marginEnd="@dimen/margin_large"
                 android:background="@{news.bookmark ? @drawable/ic_bookmark : @drawable/ic_bookmark_border}"
                 android:backgroundTint="@{news.bookmark ? @color/purple_500 : @color/gray_500}"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/text_title"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:background="@drawable/ic_bookmark_border"
                 tools:backgroundTint="@color/gray_500" />
 
