@@ -66,20 +66,18 @@ class NewsFragment : Fragment() {
                 viewModel.selectCategory(it)
             }
         )
-        binding.latestNewsList.apply {
-            adapter = latestNewsAdapter
-            itemAnimator?.changeDuration = 0
-        }
+        binding.latestNewsList.adapter = latestNewsAdapter
+        binding.categoryList.adapter = categoryAdapter
         binding.newsList.apply {
             adapter = newsAdapter
             itemAnimator?.changeDuration = 0
         }
-        binding.categoryList.adapter = categoryAdapter
         binding.listener = object : RetryListener {
             override fun retry() {
                 viewModel.refresh()
             }
         }
+        binding.dotsIndicator.attachTo(binding.latestNewsList)
         binding.appbar.addOnOffsetChangedListener { _, verticalOffset ->
             binding.swipeRefreshLayout.isEnabled = verticalOffset == 0
         }

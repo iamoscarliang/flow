@@ -45,11 +45,14 @@ dependencies {
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
+    // SwipeRefreshLayout
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
     // Shimmer effect
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
 
-    // SwipeRefreshLayout
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+    // Dots indicator
+    implementation 'com.tbuonomo:dotsindicator:5.0'
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.16.0'

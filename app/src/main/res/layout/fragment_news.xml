@@ -39,7 +39,6 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:enabled="@{latestNews.state != State.LOADING &amp;&amp; news.state != State.LOADING}"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:onRefreshListener="@{() -> listener.retry()}"
         app:refreshHide="@{latestNews.state == State.LOADING &amp;&amp; news.state == State.LOADING}">
@@ -61,13 +60,36 @@
                     android:layout_height="wrap_content"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/latest_news_list"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/layout_latest_news_bg_height"
-                        android:orientation="horizontal"
-                        app:layoutManager="LinearLayoutManager"
-                        app:layout_collapseMode="parallax" />
+                        app:layout_collapseMode="parallax">
+
+                        <androidx.viewpager2.widget.ViewPager2
+                            android:id="@+id/latest_news_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/layout_latest_news_item_height"
+                            android:orientation="horizontal"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                            android:id="@+id/dots_indicator"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/margin_large"
+                            app:dotsColor="@color/gray_500"
+                            app:dotsSize="@dimen/image_dot_height"
+                            app:dotsSpacing="@dimen/margin_small"
+                            app:dotsWidthFactor="2.5"
+                            app:layout_constraintBottom_toBottomOf="@+id/latest_news_list"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:progressMode="false"
+                            app:selectedDotColor="@color/purple_500" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toolbar"
