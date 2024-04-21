@@ -119,7 +119,7 @@ class SearchFragment : Fragment() {
         dismissKeyboard(v.windowToken)
         val query = binding.editSearch.text.toString()
         if (query.isBlank()) {
-            Snackbar.make(binding.root, getString(R.string.empty_search), Snackbar.LENGTH_LONG)
+            Snackbar.make(binding.coordinatorLayout, getString(R.string.empty_search), Snackbar.LENGTH_LONG)
                 .show()
         } else {
             viewModel.setQuery(query, 10)

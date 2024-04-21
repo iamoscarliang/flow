@@ -32,13 +32,14 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/app_bg">
+            android:background="@color/app_fg">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -88,7 +89,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:spanCount="@integer/columns_count" />
+                    app:spanCount="@integer/column_count" />
 
                 <include
                     android:id="@+id/layout_loading_state"

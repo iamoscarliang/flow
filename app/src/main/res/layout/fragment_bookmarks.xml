@@ -36,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="GridLayoutManager"
-            app:spanCount="@integer/columns_count" />
+            app:spanCount="@integer/column_count" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

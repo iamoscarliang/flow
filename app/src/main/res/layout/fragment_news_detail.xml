@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/layout_latest_news_item_height"
                 app:collapsedTitleTextColor="@color/white"
-                app:contentScrim="@color/purple_500"
+                app:contentScrim="@android:color/transparent"
                 app:expandedTitleTextColor="@color/white"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:maxLines="10"

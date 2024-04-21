@@ -31,6 +31,8 @@ class CategoryRepository(
                     Category("news/Environment", "Environment"),
                     Category("news/Health", "Health"),
                     Category("news/Science", "Science"),
+                    Category("news/Sports", "Sports"),
+                    Category("news/Arts_and_Entertainment", "Arts_and_Entertainment")
                 )
             }
 

@@ -48,6 +48,8 @@
                 android:layout_margin="@dimen/margin_medium"
                 android:background="@drawable/ic_label"
                 android:backgroundTint="@color/purple_500"
+                android:maxLength="15"
+                android:maxLines="1"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingTop="@dimen/padding_large"
                 android:paddingEnd="@dimen/margin_medium"
