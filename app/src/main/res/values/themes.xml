@@ -1,7 +1,9 @@
 <resources>
     <style name="Theme.Flow" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Status bar color -->
-        <item name="android:statusBarColor">@color/purple_500</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <!-- Navigation bar color -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
     <style name="RoundedRectangle">

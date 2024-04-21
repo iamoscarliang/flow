@@ -59,7 +59,8 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
+                    android:layout_height="@dimen/layout_toolbar_height"
+                    android:paddingTop="@dimen/interval_small"
                     app:collapseIcon="@drawable/ic_back"
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_back"
