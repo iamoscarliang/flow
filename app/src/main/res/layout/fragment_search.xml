@@ -24,7 +24,7 @@
 
         <variable
             name="listener"
-            type="com.oscarliang.flow.ui.common.RetryListener" />
+            type="com.oscarliang.flow.ui.common.ClickListener" />
 
         <variable
             name="searchResults"

@@ -6,13 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.oscarliang.flow.databinding.FragmentNewsBinding
 import com.oscarliang.flow.ui.common.CategoryListAdapter
+import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.LatestNewsListAdapter
 import com.oscarliang.flow.ui.common.NewsListAdapter
-import com.oscarliang.flow.ui.common.RetryListener
 import com.oscarliang.flow.util.TimeConverter.getTimePassBy
 import com.oscarliang.flow.util.autoCleared
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -47,7 +48,12 @@ class NewsFragment : Fragment() {
 
         this.latestNewsAdapter = LatestNewsListAdapter(
             itemClickListener = {
-
+                findNavController()
+                    .navigate(
+                        NewsFragmentDirections.actionToNewsDetailFragment(
+                            it.id
+                        )
+                    )
             },
             bookmarkClickListener = {
                 viewModel.toggleBookmark(it)
@@ -55,7 +61,12 @@ class NewsFragment : Fragment() {
         )
         this.newsAdapter = NewsListAdapter(
             itemClickListener = {
-
+                findNavController()
+                    .navigate(
+                        NewsFragmentDirections.actionToNewsDetailFragment(
+                            it.id
+                        )
+                    )
             },
             bookmarkClickListener = {
                 viewModel.toggleBookmark(it)
@@ -72,8 +83,8 @@ class NewsFragment : Fragment() {
             adapter = newsAdapter
             itemAnimator?.changeDuration = 0
         }
-        binding.listener = object : RetryListener {
-            override fun retry() {
+        binding.listener = object : ClickListener {
+            override fun onClick() {
                 viewModel.refresh()
             }
         }
@@ -122,7 +133,7 @@ class NewsFragment : Fragment() {
     }
 
     private fun disableViewPagerAnimation() {
-        for (i in 0 until  binding.latestNewsList.childCount) {
+        for (i in 0 until binding.latestNewsList.childCount) {
             val view = binding.latestNewsList.getChildAt(i)
             if (view is RecyclerView) {
                 view.itemAnimator?.changeDuration = 0

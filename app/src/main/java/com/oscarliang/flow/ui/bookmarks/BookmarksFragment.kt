@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.oscarliang.flow.R
+import androidx.navigation.fragment.findNavController
 import com.oscarliang.flow.databinding.FragmentBookmarksBinding
 import com.oscarliang.flow.ui.common.NewsListAdapter
+import com.oscarliang.flow.ui.news.NewsFragmentDirections
 import com.oscarliang.flow.util.autoCleared
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -36,7 +36,12 @@ class BookmarksFragment : Fragment() {
         binding.bookmarks = viewModel.bookmarks
         this.newsAdapter = NewsListAdapter(
             itemClickListener = {
-
+                findNavController()
+                    .navigate(
+                        NewsFragmentDirections.actionToNewsDetailFragment(
+                            it.id
+                        )
+                    )
             },
             bookmarkClickListener = {
                 viewModel.toggleBookmark(it)

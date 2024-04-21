@@ -1,6 +1,6 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <style name="Theme.Flow" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Status bar color. -->
+        <!-- Status bar color -->
         <item name="android:statusBarColor">@color/purple_500</item>
     </style>
 

@@ -21,6 +21,26 @@
         android:id="@+id/bookmarksFragment"
         android:name="com.oscarliang.flow.ui.bookmarks.BookmarksFragment"
         android:label="BookmarksFragment"
-        tools:layout="@layout/fragment_bookmarks"/>
+        tools:layout="@layout/fragment_bookmarks" />
+
+    <fragment
+        android:id="@+id/newsDetailFragment"
+        android:name="com.oscarliang.flow.ui.newsdetail.NewsDetailFragment"
+        android:label="NewsDetailFragment"
+        tools:layout="@layout/fragment_news_detail">
+
+        <argument
+            android:name="newsId"
+            app:argType="string" />
+
+    </fragment>
+
+    <action
+        android:id="@+id/action_to_newsDetailFragment"
+        app:destination="@id/newsDetailFragment"
+        app:enterAnim="@anim/slide_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/slide_out" />
 
 </navigation>

@@ -7,6 +7,7 @@ import com.oscarliang.flow.repository.CategoryRepository
 import com.oscarliang.flow.repository.NewsRepository
 import com.oscarliang.flow.ui.bookmarks.BookmarksViewModel
 import com.oscarliang.flow.ui.news.NewsViewModel
+import com.oscarliang.flow.ui.newsdetail.NewsDetailViewModel
 import com.oscarliang.flow.ui.search.SearchViewModel
 import com.oscarliang.flow.util.RateLimiter
 import org.koin.android.ext.koin.androidContext
@@ -64,6 +65,10 @@ val appModule = module {
 
     viewModel {
         BookmarksViewModel(get())
+    }
+
+    viewModel {
+        NewsDetailViewModel(get())
     }
 
 }

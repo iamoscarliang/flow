@@ -11,11 +11,13 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.oscarliang.flow.R
 import com.oscarliang.flow.databinding.FragmentSearchBinding
+import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.NewsListAdapter
-import com.oscarliang.flow.ui.common.RetryListener
+import com.oscarliang.flow.ui.news.NewsFragmentDirections
 import com.oscarliang.flow.util.autoCleared
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -44,7 +46,12 @@ class SearchFragment : Fragment() {
 
         this.newsAdapter = NewsListAdapter(
             itemClickListener = {
-
+                findNavController()
+                    .navigate(
+                        NewsFragmentDirections.actionToNewsDetailFragment(
+                            it.id
+                        )
+                    )
             },
             bookmarkClickListener = {
                 viewModel.toggleBookmark(it)
@@ -54,8 +61,8 @@ class SearchFragment : Fragment() {
             adapter = newsAdapter
             itemAnimator?.changeDuration = 0
         }
-        binding.listener = object : RetryListener {
-            override fun retry() {
+        binding.listener = object : ClickListener {
+            override fun onClick() {
                 viewModel.retry()
             }
         }

@@ -24,7 +24,7 @@
 
         <variable
             name="listener"
-            type="com.oscarliang.flow.ui.common.RetryListener" />
+            type="com.oscarliang.flow.ui.common.ClickListener" />
 
         <variable
             name="latestNews"
@@ -39,7 +39,7 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:onRefreshListener="@{() -> listener.retry()}"
+        app:onRefreshListener="@{() -> listener.onClick()}"
         app:refreshHide="@{latestNews.state == State.LOADING &amp;&amp; news.state == State.LOADING}">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout

@@ -14,7 +14,7 @@
 
         <variable
             name="listener"
-            type="com.oscarliang.flow.ui.common.RetryListener" />
+            type="com.oscarliang.flow.ui.common.ClickListener" />
 
         <variable
             name="resource"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:backgroundTint="@color/gray_500"
-            android:onClick="@{() -> listener.retry()}"
+            android:onClick="@{() -> listener.onClick()}"
             android:text="@string/retry"
             android:textAllCaps="false"
             android:textSize="@dimen/text_title_small" />
