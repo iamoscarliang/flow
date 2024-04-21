@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="androidx.lifecycle.LiveData" />
+
+        <import type="com.oscarliang.flow.repository.DarkMode" />
+
+        <variable
+            name="darkMode"
+            type="LiveData&lt;DarkMode>" />
+
+        <variable
+            name="listener"
+            type="com.oscarliang.flow.ui.common.ClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="320dp"
+            android:layout_height="0dp"
+            android:background="@drawable/shape_rect"
+            android:backgroundTint="@color/app_fg"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="5:6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/text_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_large"
+                android:text="@string/settings"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_title_small"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/image_line_top"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/padding_small"
+                android:layout_margin="@dimen/margin_large"
+                android:background="@color/gray_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_settings" />
+
+            <TextView
+                android:id="@+id/text_dark_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:text="@string/dark_mode_preference"
+                android:textColor="@color/gray_700"
+                android:textSize="@dimen/text_body_medium"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/text_settings"
+                app:layout_constraintTop_toBottomOf="@id/image_line_top" />
+
+            <RadioGroup
+                android:id="@+id/radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:orientation="vertical"
+                app:layout_constraintStart_toStartOf="@id/text_dark_mode"
+                app:layout_constraintTop_toBottomOf="@id/text_dark_mode">
+
+                <RadioButton
+                    android:id="@+id/btn_default"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{darkMode == DarkMode.DEFAULT}"
+                    android:text="@string/dark_mode_default"
+                    android:textColor="@color/gray_700"
+                    android:textSize="@dimen/text_body_small" />
+
+                <RadioButton
+                    android:id="@+id/btn_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{darkMode == DarkMode.LIGHT}"
+                    android:text="@string/dark_mode_light"
+                    android:textColor="@color/gray_700"
+                    android:textSize="@dimen/text_body_small" />
+
+                <RadioButton
+                    android:id="@+id/btn_dark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="@{darkMode == DarkMode.DARK}"
+                    android:text="@string/dark_mode_dark"
+                    android:textColor="@color/gray_700"
+                    android:textSize="@dimen/text_body_small" />
+
+            </RadioGroup>
+
+            <ImageView
+                android:id="@+id/image_line_bottom"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/padding_small"
+                android:layout_margin="@dimen/margin_large"
+                android:background="@color/gray_500"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/radio_group" />
+
+            <Button
+                android:id="@+id/btn_ok"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/purple_500"
+                android:onClick="@{() -> listener.onClick()}"
+                android:text="@string/ok"
+                android:textSize="@dimen/text_body_medium"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_line_bottom" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

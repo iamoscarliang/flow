@@ -1,14 +1,18 @@
 package com.oscarliang.flow.di
 
+import android.content.Context
 import androidx.room.Room
+import com.oscarliang.flow.MainViewModel
 import com.oscarliang.flow.api.NewsService
 import com.oscarliang.flow.db.NewsDatabase
 import com.oscarliang.flow.repository.CategoryRepository
 import com.oscarliang.flow.repository.NewsRepository
+import com.oscarliang.flow.repository.UserRepository
 import com.oscarliang.flow.ui.bookmarks.BookmarksViewModel
 import com.oscarliang.flow.ui.news.NewsViewModel
 import com.oscarliang.flow.ui.newsdetail.NewsDetailViewModel
 import com.oscarliang.flow.ui.search.SearchViewModel
+import com.oscarliang.flow.ui.settings.SettingsViewModel
 import com.oscarliang.flow.util.RateLimiter
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -44,6 +48,10 @@ val appModule = module {
     }
 
     single {
+        androidContext().getSharedPreferences("user_preferences", Context.MODE_PRIVATE)
+    }
+
+    single {
         RateLimiter<String>(10, TimeUnit.MINUTES)
     }
 
@@ -53,6 +61,10 @@ val appModule = module {
 
     single {
         CategoryRepository(get(), get())
+    }
+
+    single {
+        UserRepository(get())
     }
 
     viewModel {
@@ -69,6 +81,14 @@ val appModule = module {
 
     viewModel {
         NewsDetailViewModel(get())
+    }
+
+    viewModel {
+        SettingsViewModel(get())
+    }
+
+    viewModel {
+        MainViewModel(get())
     }
 
 }

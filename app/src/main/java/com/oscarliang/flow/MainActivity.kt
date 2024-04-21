@@ -3,29 +3,39 @@ package com.oscarliang.flow
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.oscarliang.flow.databinding.ActivityMainBinding
+import com.oscarliang.flow.repository.DarkMode
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+
+    private val viewModel by viewModel<MainViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupWindow()
-        setNavController()
+
+        initWindow()
+        initNavController()
+        initToolbar()
+        toggleDarkMode()
     }
 
-    private fun setupWindow() {
+    private fun initWindow() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
             val systemWindowInsets = insets.getInsets(
@@ -42,10 +52,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setNavController() {
+    private fun initNavController() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
+        this.navController = navHostFragment.navController
         binding.bottomNav?.setupWithNavController(navController)
         binding.navView?.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -53,6 +63,29 @@ class MainActivity : AppCompatActivity() {
                 binding.appbar.isVisible = it
                 binding.bottomNav?.isVisible = it
                 binding.navView?.isVisible = it
+            }
+        }
+    }
+
+    private fun initToolbar() {
+        binding.toolbar.inflateMenu(R.menu.menu_toolbar)
+        binding.toolbar.setOnMenuItemClickListener {
+            navController.navigate(R.id.action_to_settingsDialog)
+            true
+        }
+    }
+
+    private fun toggleDarkMode() {
+        viewModel.darkModeLiveData.observe(this) {
+            when (it!!) {
+                DarkMode.DEFAULT ->
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+
+                DarkMode.LIGHT ->
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+                DarkMode.DARK ->
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
         }
     }

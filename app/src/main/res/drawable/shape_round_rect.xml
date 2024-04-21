@@ -11,8 +11,8 @@
         <shape android:shape="rectangle">
             <solid android:color="@color/app_fg" />
             <corners
-                android:topLeftRadius="@dimen/margin_large"
-                android:topRightRadius="@dimen/margin_large" />
+                android:topLeftRadius="30dp"
+                android:topRightRadius="30dp" />
         </shape>
     </item>
 

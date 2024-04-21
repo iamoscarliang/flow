@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Dark mode color -->
     <color name="app_bg">#FF000000</color>
     <color name="app_fg">#FF3A3B3C</color>
 </resources>

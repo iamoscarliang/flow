@@ -22,6 +22,8 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
                 app:navigationIcon="@drawable/ic_flow"
                 app:title="@string/app_name"
                 app:titleTextColor="@color/purple_500" />

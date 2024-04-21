@@ -35,6 +35,12 @@
 
     </fragment>
 
+    <dialog
+        android:id="@+id/settingsDialog"
+        android:name="com.oscarliang.flow.ui.settings.SettingsDialog"
+        android:label="SettingsDialog"
+        tools:layout="@layout/dialog_settings" />
+
     <action
         android:id="@+id/action_to_newsDetailFragment"
         app:destination="@id/newsDetailFragment"
@@ -42,5 +48,13 @@
         app:exitAnim="@anim/fade_out"
         app:popEnterAnim="@anim/fade_in"
         app:popExitAnim="@anim/slide_out" />
+
+    <action
+        android:id="@+id/action_to_settingsDialog"
+        app:destination="@id/settingsDialog"
+        app:enterAnim="@anim/fade_in"
+        app:exitAnim="@anim/fade_out"
+        app:popEnterAnim="@anim/fade_in"
+        app:popExitAnim="@anim/fade_out" />
 
 </navigation>

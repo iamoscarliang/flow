@@ -57,6 +57,7 @@
                     android:id="@+id/collapsing_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/layout_latest_news_bg_height"
+                    app:contentScrim="@color/app_bg"
                     app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
