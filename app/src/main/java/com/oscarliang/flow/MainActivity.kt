@@ -46,11 +46,13 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
-        binding.bottomNav.setupWithNavController(navController)
+        binding.bottomNav?.setupWithNavController(navController)
+        binding.navView?.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             (destination.id != R.id.newsDetailFragment).let {
                 binding.appbar.isVisible = it
-                binding.bottomNav.isVisible = it
+                binding.bottomNav?.isVisible = it
+                binding.navView?.isVisible = it
             }
         }
     }

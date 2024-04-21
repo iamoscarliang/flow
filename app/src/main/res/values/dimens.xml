@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Layout size -->
-    <dimen name="layout_latest_news_item_height">400dp</dimen>
-    <dimen name="layout_latest_news_bg_height">450dp</dimen>
+    <dimen name="layout_latest_news_item_height">350dp</dimen>
+    <dimen name="layout_latest_news_bg_height">400dp</dimen>
     <dimen name="layout_category_item_height">40dp</dimen>
     <dimen name="layout_category_bg_height">50dp</dimen>
     <dimen name="layout_news_item_height">120dp</dimen>
     <dimen name="layout_loading_state_height">70dp</dimen>
     <dimen name="layout_toolbar_height">100dp</dimen>
+    <dimen name="layout_nav_view_width">160dp</dimen>
 
     <!-- View size -->
     <dimen name="btn_bookmark_small_width">30dp</dimen>

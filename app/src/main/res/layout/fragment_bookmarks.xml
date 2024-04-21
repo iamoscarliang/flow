@@ -33,9 +33,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/news_list"
-            app:layoutManager="LinearLayoutManager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:layoutManager="GridLayoutManager"
+            app:spanCount="@integer/columns_count" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

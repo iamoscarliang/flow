@@ -83,11 +83,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
-                    app:layoutManager="LinearLayoutManager"
+                    app:layoutManager="GridLayoutManager"
                     app:layout_constraintBottom_toTopOf="@id/layout_loading_state"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:spanCount="@integer/columns_count" />
 
                 <include
                     android:id="@+id/layout_loading_state"
