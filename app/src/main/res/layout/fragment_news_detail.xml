@@ -107,7 +107,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:text="@{news.date}"
                     android:textColor="@color/gray_700"
-                    android:textSize="@dimen/text_body_medium"
+                    android:textSize="@dimen/text_body_small"
                     app:layout_constraintStart_toStartOf="@id/text_source"
                     app:layout_constraintTop_toBottomOf="@id/text_source"
                     tools:text="yyyy-MM-dd" />
@@ -116,7 +116,10 @@
                     android:id="@+id/text_body"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_large"
+                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_large"
+                    android:layout_marginBottom="@dimen/interval_large"
                     android:lineSpacingExtra="@dimen/margin_small"
                     android:text="@{news.body}"
                     android:textColor="@color/black"
@@ -125,7 +128,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/text_date"
-                    tools:text="News content more content more content more content more content" />
+                    tools:text="News body more body more body more body more body more body more body" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

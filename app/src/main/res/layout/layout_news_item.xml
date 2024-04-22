@@ -84,17 +84,17 @@
                 android:maxLines="2"
                 android:text="@{news.title}"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_body_medium"
+                android:textSize="@dimen/text_body_small"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/text_source"
                 app:layout_constraintTop_toBottomOf="@id/text_source"
-                tools:text="News title more title more title more title more title more title more title more title" />
+                tools:text="News title more title more title more title more title more title more title more title more title more title" />
 
             <TextView
                 android:id="@+id/text_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:text="@{news.date}"
                 android:textColor="@color/gray_700"
                 android:textSize="@dimen/text_body_small"

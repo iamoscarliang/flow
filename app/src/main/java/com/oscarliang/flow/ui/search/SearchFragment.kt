@@ -90,7 +90,7 @@ class SearchFragment : Fragment() {
                 binding.hasMore = state.hasMore
                 val error = state.errorMessageIfNotHandled
                 if (error != null) {
-                    Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.coordinatorLayout, error, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
@@ -119,8 +119,8 @@ class SearchFragment : Fragment() {
         dismissKeyboard(v.windowToken)
         val query = binding.editSearch.text.toString()
         if (query.isBlank()) {
-            Snackbar.make(binding.coordinatorLayout, getString(R.string.empty_search), Snackbar.LENGTH_LONG)
-                .show()
+            val msg = getString(R.string.empty_search)
+            Snackbar.make(binding.coordinatorLayout, msg, Snackbar.LENGTH_LONG).show()
         } else {
             viewModel.setQuery(query, 10)
         }
