@@ -17,6 +17,8 @@ import com.oscarliang.flow.ui.common.NewsListAdapter
 import com.oscarliang.flow.util.TimeConverter.getTimePassBy
 import com.oscarliang.flow.util.autoCleared
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import kotlin.math.abs
+import kotlin.math.max
 
 class NewsFragment : Fragment() {
 
@@ -93,7 +95,7 @@ class NewsFragment : Fragment() {
             binding.swipeRefreshLayout.isEnabled = verticalOffset == 0
         }
         initRecyclerView()
-        disableViewPagerAnimation()
+        initViewPagerAnimation()
     }
 
     private fun initRecyclerView() {
@@ -132,7 +134,50 @@ class NewsFragment : Fragment() {
         }
     }
 
-    private fun disableViewPagerAnimation() {
+    private fun initViewPagerAnimation() {
+        binding.latestNewsList.setPageTransformer { view, position ->
+            view.apply {
+                val minScale = 0.85f
+                val minAlpha = 0.5f
+                val pageWidth = width
+                val pageHeight = height
+                when {
+                    // [-Infinity,-1)
+                    position < -1 -> {
+                        // This page is way off-screen to the left
+                        alpha = 0f
+                    }
+
+                    // [-1,1]
+                    position <= 1 -> {
+                        // Modify the default slide transition to shrink the page as well
+                        val scaleFactor = max(minScale, 1 - abs(position))
+                        val verticalMargin = pageHeight * (1 - scaleFactor) / 2
+                        val horizontalMargin = pageWidth * (1 - scaleFactor) / 2
+                        translationX = if (position < 0) {
+                            horizontalMargin - verticalMargin / 2
+                        } else {
+                            horizontalMargin + verticalMargin / 2
+                        }
+
+                        // Scale the page down (between MIN_SCALE and 1)
+                        scaleX = scaleFactor
+                        scaleY = scaleFactor
+
+                        // Fade the page relative to its size.
+                        alpha = (minAlpha +
+                                (((scaleFactor - minScale) / (1 - minScale)) * (1 - minAlpha)))
+                    }
+
+                    // (1,+Infinity]
+                    else -> {
+                        // This page is way off-screen to the right
+                        alpha = 0f
+                    }
+                }
+            }
+        }
+        // Disable the blink effect when item updated
         for (i in 0 until binding.latestNewsList.childCount) {
             val view = binding.latestNewsList.getChildAt(i)
             if (view is RecyclerView) {
