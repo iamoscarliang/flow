@@ -37,18 +37,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun initWindow() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
-            val systemWindowInsets = insets.getInsets(
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, windowInsets ->
+            val insets = windowInsets.getInsets(
                 WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime()
             )
-            binding.root.updatePadding(
-                left = systemWindowInsets.left,
-                right = systemWindowInsets.right,
-            )
+            // Prevent the app bar from overlapping the status bar
             binding.appbar.updatePadding(
-                top = systemWindowInsets.top,
+                top = insets.top,
             )
-            insets
+            // Prevent the view from overlapping the navigation bar in landscape mode
+            binding.root.updatePadding(
+                right = insets.right,
+            )
+            windowInsets
         }
     }
 
