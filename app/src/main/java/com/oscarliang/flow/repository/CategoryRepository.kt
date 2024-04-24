@@ -32,7 +32,7 @@ class CategoryRepository(
                     Category("news/Health", "Health"),
                     Category("news/Science", "Science"),
                     Category("news/Sports", "Sports"),
-                    Category("news/Arts_and_Entertainment", "Arts_and_Entertainment")
+                    Category("news/Arts_and_Entertainment", "Arts and Entertainment")
                 )
             }
 
