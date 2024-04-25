@@ -4,5 +4,4 @@
     <dimen name="layout_latest_news_item_height">280dp</dimen>
     <dimen name="layout_latest_news_bg_height">330dp</dimen>
     <dimen name="layout_dialog_width">300dp</dimen>
-    <dimen name="layout_nav_view_width">160dp</dimen>
 </resources>

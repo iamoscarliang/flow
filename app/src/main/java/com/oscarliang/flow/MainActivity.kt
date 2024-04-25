@@ -12,6 +12,7 @@ import androidx.core.view.updatePadding
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.ads.MobileAds
 import com.oscarliang.flow.databinding.ActivityMainBinding
 import com.oscarliang.flow.repository.DarkMode
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        MobileAds.initialize(this)
 
         initWindow()
         initNavController()
