@@ -10,100 +10,120 @@
             type="com.oscarliang.flow.model.News" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/layout_news_item_height"
-        android:layout_marginStart="@dimen/margin_medium"
-        android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_medium"
-        android:layout_marginBottom="@dimen/margin_medium"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="@dimen/margin_large"
-        app:cardElevation="@dimen/margin_small">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="@dimen/layout_news_item_height"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="@dimen/margin_large"
+            app:cardElevation="@dimen/margin_small">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image_news"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_margin="@dimen/margin_medium"
-                android:scaleType="centerCrop"
-                app:imageUrl="@{news.image}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/RoundedRectangle"
-                tools:src="@tools:sample/backgrounds/scenic" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/text_source"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
-                android:background="@drawable/ic_label"
-                android:backgroundTint="@color/purple_500"
-                android:maxLength="15"
-                android:maxLines="1"
-                android:paddingStart="@dimen/margin_medium"
-                android:paddingTop="@dimen/padding_large"
-                android:paddingEnd="@dimen/margin_medium"
-                android:paddingBottom="@dimen/padding_large"
-                android:text="@{news.source.title}"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_body_small"
-                app:layout_constraintStart_toEndOf="@id/image_news"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Source" />
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/image_news"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:scaleType="centerCrop"
+                    app:imageUrl="@{news.image}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearanceOverlay="@style/RoundedRectangle"
+                    tools:src="@tools:sample/backgrounds/scenic" />
 
-            <ImageButton
-                android:id="@+id/btn_bookmark"
-                android:layout_width="@dimen/btn_bookmark_small_width"
-                android:layout_height="@dimen/btn_bookmark_small_width"
-                android:layout_marginEnd="@dimen/margin_large"
-                android:background="@{news.bookmark ? @drawable/ic_bookmark : @drawable/ic_bookmark_border}"
-                android:backgroundTint="@{news.bookmark ? @color/purple_500 : @color/gray_500}"
-                app:layout_constraintBottom_toTopOf="@id/text_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:background="@drawable/ic_bookmark_border"
-                tools:backgroundTint="@color/gray_500" />
+                <TextView
+                    android:id="@+id/text_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:background="@drawable/ic_label"
+                    android:backgroundTint="@color/purple_500"
+                    android:maxLength="15"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/margin_medium"
+                    android:paddingTop="@dimen/padding_large"
+                    android:paddingEnd="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/padding_large"
+                    android:text="@{news.source.title}"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_body_small"
+                    app:layout_constraintStart_toEndOf="@id/image_news"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Source" />
 
-            <TextView
-                android:id="@+id/text_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginEnd="@dimen/margin_large"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:text="@{news.title}"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_body_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/text_source"
-                app:layout_constraintTop_toBottomOf="@id/text_source"
-                tools:text="News title more title more title more title more title more title more title more title more title more title" />
+                <ImageButton
+                    android:id="@+id/btn_bookmark"
+                    android:layout_width="@dimen/btn_bookmark_small_width"
+                    android:layout_height="@dimen/btn_bookmark_small_width"
+                    android:layout_marginEnd="@dimen/margin_large"
+                    android:background="@{news.bookmark ? @drawable/ic_bookmark : @drawable/ic_bookmark_border}"
+                    android:backgroundTint="@{news.bookmark ? @color/purple_500 : @color/gray_500}"
+                    app:layout_constraintBottom_toTopOf="@id/text_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@drawable/ic_bookmark_border"
+                    tools:backgroundTint="@color/gray_500" />
 
-            <TextView
-                android:id="@+id/text_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_large"
-                android:text="@{news.date}"
-                android:textColor="@color/gray_700"
-                android:textSize="@dimen/text_body_small"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/text_title"
-                tools:text="yyyy-MM-dd" />
+                <TextView
+                    android:id="@+id/text_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_large"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="@{news.title}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_body_small"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/text_source"
+                    app:layout_constraintTop_toBottomOf="@id/text_source"
+                    tools:text="News title more title more title more title more title more title more title more title more title more title" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/text_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_large"
+                    android:text="@{news.date}"
+                    android:textColor="@color/gray_700"
+                    android:textSize="@dimen/text_body_small"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/text_title"
+                    tools:text="yyyy-MM-dd" />
 
-    </androidx.cardview.widget.CardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <FrameLayout
+            android:id="@+id/frame_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_small"
+            android:paddingEnd="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
+            android:visibility="gone" />
+
+    </LinearLayout>
 
 </layout>

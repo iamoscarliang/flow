@@ -20,7 +20,7 @@ class CategoryListAdapter(
     }
 ) {
 
-    override fun createBinding(parent: ViewGroup): LayoutCategoryItemBinding {
+    override fun createBinding(parent: ViewGroup, viewType: Int): LayoutCategoryItemBinding {
         val binding = LayoutCategoryItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,

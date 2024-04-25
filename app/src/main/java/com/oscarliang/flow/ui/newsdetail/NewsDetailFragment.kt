@@ -16,14 +16,17 @@ import com.oscarliang.flow.model.News
 import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.ItemClickListener
 import com.oscarliang.flow.util.autoCleared
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewsDetailFragment : Fragment() {
 
     var binding by autoCleared<FragmentNewsDetailBinding>()
-
     private val viewModel by viewModel<NewsDetailViewModel>()
     private val params by navArgs<NewsDetailFragmentArgs>()
+
+    private val adBuilder by inject<AdLoader.Builder>()
+    private val adRequest by inject<AdRequest>()
     private var currentNativeAd: NativeAd? = null
 
     override fun onCreateView(
@@ -59,39 +62,37 @@ class NewsDetailFragment : Fragment() {
                 viewModel.toggleBookmark(item)
             }
         }
-        initAds()
+        initNativeAd()
     }
 
-    private fun initAds() {
-        val adLoader = AdLoader.Builder(requireContext(), "ca-app-pub-3940256099942544/2247696110")
-            .forNativeAd { nativeAd ->
-                // If this callback occurs after the activity is destroyed, you must call
-                // destroy and return or you may get a memory leak
-                if (isDetached
-                    || requireActivity().isDestroyed
-                    || requireActivity().isFinishing
-                    || requireActivity().isChangingConfigurations
-                ) {
-                    nativeAd.destroy()
-                    return@forNativeAd
-                }
+    private fun initNativeAd() {
+        val adLoader = adBuilder.forNativeAd { nativeAd ->
+            // If this callback occurs after the activity is destroyed, we must call
+            // destroy and return or we may get a memory leak
+            if (requireActivity().isDestroyed
+                || requireActivity().isFinishing
+                || requireActivity().isChangingConfigurations
+            ) {
+                nativeAd.destroy()
+                return@forNativeAd
+            }
 
-                // Must call destroy on old ads, otherwise you will have a memory leak
-                currentNativeAd?.destroy()
-                currentNativeAd = nativeAd
+            // Must call destroy on old ads, otherwise we will have a memory leak
+            currentNativeAd?.destroy()
+            currentNativeAd = nativeAd
 
-                // Inflate the ads layout and display the ads
-                val adBinding = LayoutAdMediumBinding.inflate(layoutInflater, null, false)
-                displayNativeAd(nativeAd, adBinding)
+            // Inflate the ads layout and display the ads
+            val adBinding = LayoutAdMediumBinding.inflate(layoutInflater)
+            bindNativeAd(nativeAd, adBinding)
 
-                // Remove the previous ads and add new one
-                binding.frameLayout.removeAllViews()
-                binding.frameLayout.addView(adBinding.root)
-            }.build()
-        adLoader.loadAd(AdRequest.Builder().build())
+            // Remove the previous ads and add new one
+            binding.frameLayout.removeAllViews()
+            binding.frameLayout.addView(adBinding.root)
+        }.build()
+        adLoader.loadAd(adRequest)
     }
 
-    private fun displayNativeAd(ad: NativeAd, adBinding: LayoutAdMediumBinding) {
+    private fun bindNativeAd(ad: NativeAd, adBinding: LayoutAdMediumBinding) {
         adBinding.ad = ad
         adBinding.nativeAdView.headlineView = adBinding.textAdHeadline
         adBinding.nativeAdView.bodyView = adBinding.textAdBody

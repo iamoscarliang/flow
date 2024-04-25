@@ -14,6 +14,8 @@
     <dimen name="btn_bookmark_small_width">30dp</dimen>
     <dimen name="btn_bookmark_large_width">50dp</dimen>
     <dimen name="image_dot_height">10dp</dimen>
+    <dimen name="image_ad_media_height">180dp</dimen>
+    <dimen name="image_ad_icon_height">90dp</dimen>
 
     <!-- Text size -->
     <dimen name="text_body_small">12sp</dimen>

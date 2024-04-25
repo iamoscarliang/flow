@@ -21,13 +21,13 @@ class LatestNewsListAdapter(
     }
 ) {
 
-    override fun createBinding(parent: ViewGroup): LayoutLatestNewsItemBinding {
+    override fun createBinding(parent: ViewGroup, viewType: Int): LayoutLatestNewsItemBinding {
         val binding = LayoutLatestNewsItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        binding.root.setOnClickListener {
+        binding.cardView.setOnClickListener {
             binding.news?.let {
                 itemClickListener?.invoke(it)
             }

@@ -35,8 +35,8 @@
             android:id="@+id/news_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="GridLayoutManager"
-            app:spanCount="@integer/column_count" />
+            android:orientation="vertical"
+            app:layoutManager="LinearLayoutManager" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

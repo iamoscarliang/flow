@@ -24,7 +24,7 @@
             <com.google.android.gms.ads.nativead.MediaView
                 android:id="@+id/media_view"
                 android:layout_width="match_parent"
-                android:layout_height="180dp"
+                android:layout_height="@dimen/image_ad_media_height"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -33,10 +33,10 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/image_ad_icon"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="@dimen/image_ad_icon_height"
+                android:layout_height="@dimen/image_ad_icon_height"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 app:imageDrawable="@{ad.icon.drawable}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/media_view"
@@ -56,7 +56,7 @@
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/image_ad_icon"
                 app:layout_constraintTop_toTopOf="@id/image_ad_icon"
-                tools:text="Ads headline" />
+                tools:text="Ad headline" />
 
             <TextView
                 android:id="@+id/text_ad_body"
@@ -67,10 +67,11 @@
                 android:text="@{ad.body}"
                 android:textColor="@color/gray_700"
                 android:textSize="@dimen/text_body_small"
+                app:layout_constraintBottom_toTopOf="@+id/text_ad_notification"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/text_ad_headline"
                 app:layout_constraintTop_toBottomOf="@id/text_ad_headline"
-                tools:text="Ads body more body more body more body more body more body more body more body more body more body" />
+                tools:text="Ad body more body more body more body more body more body more body more body more body more body more body" />
 
             <TextView
                 android:id="@+id/text_ad_notification"
@@ -87,8 +88,7 @@
                 android:textSize="@dimen/text_body_small"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/image_ad_icon"
-                app:layout_constraintStart_toStartOf="@id/text_ad_body"
-                app:layout_constraintTop_toBottomOf="@id/text_ad_body" />
+                app:layout_constraintStart_toStartOf="@id/text_ad_body" />
 
             <RatingBar
                 android:id="@+id/rating_bar"
@@ -105,9 +105,9 @@
                 android:stepSize="0.1"
                 android:textColor="@color/gray_700"
                 android:textSize="@dimen/text_body_small"
-                app:layout_constraintBottom_toBottomOf="@+id/image_ad_icon"
+                app:layout_constraintBottom_toBottomOf="@+id/text_ad_notification"
                 app:layout_constraintStart_toEndOf="@id/text_ad_notification"
-                app:layout_constraintTop_toBottomOf="@id/text_ad_body"
+                app:layout_constraintTop_toTopOf="@id/text_ad_notification"
                 app:showHide="@{ad.starRating != null &amp;&amp; ad.starRating > 0}"
                 tools:rating="3.5" />
 

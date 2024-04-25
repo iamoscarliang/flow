@@ -2,6 +2,8 @@ package com.oscarliang.flow.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
 import com.oscarliang.flow.MainViewModel
 import com.oscarliang.flow.api.NewsService
 import com.oscarliang.flow.db.NewsDatabase
@@ -22,6 +24,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 val appModule = module {
+
+    factory {
+        AdRequest.Builder().build()
+    }
+
+    single {
+        AdLoader.Builder(androidContext(), "ca-app-pub-3940256099942544/2247696110")
+    }
 
     single {
         Retrofit.Builder()
