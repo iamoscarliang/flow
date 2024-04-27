@@ -86,6 +86,68 @@ class NewsRepository(
         }.asLiveData()
     }
 
+    fun getNewsBySource(
+        source: String,
+        count: Int
+    ): LiveData<Resource<List<News>>> {
+        return object : NetworkBoundResource<List<News>, NewsSearchResponse>() {
+            override suspend fun query(): List<News> {
+                val result = newsDao.findNewsSearchResult(source)
+                return if (result == null) {
+                    listOf()
+                } else {
+                    newsDao.findNewsById(result.newsIds)
+                }
+            }
+
+            override fun queryObservable(): LiveData<List<News>> {
+                return newsDao.getNewsSearchResult(source).switchMap { searchData ->
+                    if (searchData == null) {
+                        AbsentLiveData.create()
+                    } else {
+                        newsDao.getNewsByOrder(searchData.newsIds)
+                    }
+                }
+            }
+
+            override suspend fun fetch(): NewsSearchResponse {
+                return service.getNewsBySource(
+                    source = source,
+                    count = count
+                )
+            }
+
+            override suspend fun saveFetchResult(data: NewsSearchResponse) {
+                val news = data.article.news
+                val bookmarks = newsDao.findBookmarks()
+                news.forEach { newData ->
+                    // We prevent overriding bookmark field
+                    newData.bookmark = bookmarks.any { currentData ->
+                        currentData.id == newData.id
+                    }
+                }
+                val newsIds = news.map { it.id }
+                val result = NewsSearchResult(
+                    query = source,
+                    total = data.article.total,
+                    newsIds = newsIds
+                )
+                db.withTransaction {
+                    newsDao.insertNews(news)
+                    newsDao.insertNewsSearchResult(result)
+                }
+            }
+
+            override fun shouldFetch(data: List<News>): Boolean {
+                return rateLimiter.shouldFetch(source)
+            }
+
+            override fun onFetchFailed(exception: Exception) {
+                rateLimiter.reset(source)
+            }
+        }.asLiveData()
+    }
+
     fun searchCategory(
         category: String,
         date: String,

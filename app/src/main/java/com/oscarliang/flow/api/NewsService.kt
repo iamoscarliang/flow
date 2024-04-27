@@ -16,6 +16,14 @@ interface NewsService {
     ): NewsSearchResponse
 
     @GET("api/v1/article/getArticles")
+    suspend fun getNewsBySource(
+        @Query("apiKey") key: String = API_KEY,
+        @Query("lang") language: String = "eng",
+        @Query("sourceUri") source: String,
+        @Query("articlesCount") count: Int
+    ): NewsSearchResponse
+
+    @GET("api/v1/article/getArticles")
     suspend fun searchCategory(
         @Query("apiKey") key: String = API_KEY,
         @Query("lang") language: String = "eng",

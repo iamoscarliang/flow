@@ -23,7 +23,7 @@
             type="boolean" />
 
         <variable
-            name="listener"
+            name="retryListener"
             type="com.oscarliang.flow.ui.common.ClickListener" />
 
         <variable
@@ -39,8 +39,7 @@
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:onRefreshListener="@{() -> listener.onClick()}"
-        app:refreshHide="@{latestNews.state == State.LOADING &amp;&amp; news.state == State.LOADING}">
+        app:onRefreshListener="@{() -> retryListener.onClick()}">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinator_layout"
@@ -91,7 +90,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             app:shimmer_auto_start="true"
-                            app:showHide="@{latestNews.state == State.LOADING &amp;&amp; latestNews.data.size() == 0}">
+                            app:showHide="@{latestNews.state == State.LOADING}">
 
                             <include layout="@layout/layout_latest_news_item_shimmer" />
 
@@ -162,7 +161,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:shimmer_auto_start="true"
-                        app:showHide="@{news.state == State.LOADING &amp;&amp; news.data.size() == 0}">
+                        app:showHide="@{news.state == State.LOADING}">
 
                         <include layout="@layout/layout_news_item_shimmer" />
 

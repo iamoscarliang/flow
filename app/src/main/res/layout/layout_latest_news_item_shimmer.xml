@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/layout_latest_news_item_height"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_marginStart="@dimen/margin_large"
     android:layout_marginTop="@dimen/margin_medium"
     android:layout_marginEnd="@dimen/margin_large"
@@ -11,13 +11,14 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/text_source"
         android:layout_width="0dp"
-        android:layout_height="@dimen/interval_small"
+        android:layout_height="0dp"
         android:layout_margin="@dimen/margin_large"
-        app:layout_constraintDimensionRatio="3:1"
         android:background="@color/gray_500"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/text_title"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:shapeAppearanceOverlay="@style/RoundedRectangle"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/RoundedRectangle" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/text_title"
@@ -25,12 +26,12 @@
         android:layout_height="@dimen/interval_small"
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_large"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_medium"
         android:background="@color/gray_500"
-        app:layout_constraintDimensionRatio="8:1"
         app:layout_constraintBottom_toTopOf="@id/text_body"
+        app:layout_constraintDimensionRatio="8:1"
         app:layout_constraintStart_toStartOf="parent"
-        app:shapeAppearanceOverlay="@style/RoundedRectangle"/>
+        app:shapeAppearanceOverlay="@style/RoundedRectangle" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/text_body"
@@ -38,23 +39,11 @@
         android:layout_height="@dimen/interval_small"
         android:layout_marginStart="@dimen/margin_large"
         android:layout_marginEnd="@dimen/margin_large"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:background="@color/gray_500"
-        app:layout_constraintDimensionRatio="6:1"
-        app:layout_constraintBottom_toTopOf="@id/text_date"
-        app:layout_constraintStart_toStartOf="parent"
-        app:shapeAppearanceOverlay="@style/RoundedRectangle"/>
-
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/text_date"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/interval_small"
-        android:layout_marginStart="@dimen/margin_large"
-        android:layout_marginBottom="@dimen/interval_small"
-        app:layout_constraintDimensionRatio="3:1"
+        android:layout_marginBottom="@dimen/interval_large"
         android:background="@color/gray_500"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="6:1"
         app:layout_constraintStart_toStartOf="parent"
-        app:shapeAppearanceOverlay="@style/RoundedRectangle"/>
+        app:shapeAppearanceOverlay="@style/RoundedRectangle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

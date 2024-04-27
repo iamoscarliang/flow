@@ -154,11 +154,9 @@ class NewsViewModel(
 
         override fun onChanged(value: Category?) {
             value?.let {
-                categoryState.setValue(
-                    CategoryState(
-                        category = value.id,
-                        query = query!!
-                    )
+                categoryState.value = CategoryState(
+                    category = it.id,
+                    query = query!!
                 )
             }
         }

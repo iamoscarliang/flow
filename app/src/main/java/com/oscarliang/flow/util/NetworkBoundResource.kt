@@ -10,14 +10,9 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
         emit(Resource.loading(null))
 
         if (shouldFetch(query())) {
-            val disposable = emitSource(queryObservable().map { Resource.loading(it) })
-
             try {
                 val fetchedData = fetch()
-                // Stop the previous emission to avoid dispatching the saveFetchResult as loading state
-                disposable.dispose()
                 saveFetchResult(fetchedData)
-                // Re-attach the emission as success state
                 emitSource(queryObservable().map { Resource.success(it) })
             } catch (e: Exception) {
                 onFetchFailed(e)

@@ -51,10 +51,11 @@
                     android:id="@+id/text_source"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
                     android:background="@drawable/ic_label"
                     android:backgroundTint="@color/purple_500"
-                    android:maxLength="15"
+                    android:ellipsize="end"
+                    android:maxLength="25"
                     android:maxLines="1"
                     android:paddingStart="@dimen/margin_medium"
                     android:paddingTop="@dimen/padding_large"
@@ -64,7 +65,7 @@
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_body_small"
                     app:layout_constraintStart_toEndOf="@id/image_news"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/image_news"
                     tools:text="Source" />
 
                 <ImageButton

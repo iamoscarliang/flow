@@ -17,7 +17,7 @@ import com.oscarliang.flow.databinding.LayoutAdSmallBinding
 import com.oscarliang.flow.ui.common.CategoryListAdapter
 import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.LatestNewsListAdapter
-import com.oscarliang.flow.ui.common.NewsListAdapter
+import com.oscarliang.flow.ui.common.NewsAdListAdapter
 import com.oscarliang.flow.util.TimeConverter.getTimePassBy
 import com.oscarliang.flow.util.autoCleared
 import org.koin.android.ext.android.inject
@@ -30,7 +30,7 @@ class NewsFragment : Fragment() {
     var binding by autoCleared<FragmentNewsBinding>()
     private val viewModel by viewModel<NewsViewModel>()
     private var latestNewsAdapter by autoCleared<LatestNewsListAdapter>()
-    private var newsAdapter by autoCleared<NewsListAdapter>()
+    private var newsAdapter by autoCleared<NewsAdListAdapter>()
     private var categoryAdapter by autoCleared<CategoryListAdapter>()
 
     private val adBuilder by inject<AdLoader.Builder>()
@@ -79,7 +79,7 @@ class NewsFragment : Fragment() {
                 viewModel.toggleBookmark(it)
             }
         )
-        this.newsAdapter = NewsListAdapter(
+        this.newsAdapter = NewsAdListAdapter(
             itemClickListener = {
                 findNavController()
                     .navigate(
@@ -99,7 +99,7 @@ class NewsFragment : Fragment() {
                     || requireActivity().isChangingConfigurations
                 ) {
                     nativeAd.destroy()
-                    return@NewsListAdapter null
+                    return@NewsAdListAdapter null
                 }
                 ads.add(nativeAd)
                 LayoutAdSmallBinding.inflate(layoutInflater)
@@ -118,8 +118,9 @@ class NewsFragment : Fragment() {
             adapter = newsAdapter
             itemAnimator?.changeDuration = 0
         }
-        binding.listener = object : ClickListener {
+        binding.retryListener = object : ClickListener {
             override fun onClick() {
+                binding.swipeRefreshLayout.isRefreshing = false
                 viewModel.refresh()
             }
         }
@@ -139,8 +140,8 @@ class NewsFragment : Fragment() {
             newsAdapter.submitList(result?.data)
         }
         viewModel.categories.observe(viewLifecycleOwner) { result ->
-            categoryAdapter.submitList(result?.data)
             result?.data?.let {
+                categoryAdapter.submitList(it)
                 val selected = it.find { data -> data.isSelected }
                 binding.categoryList.scrollToPosition(it.indexOf(selected))
             }

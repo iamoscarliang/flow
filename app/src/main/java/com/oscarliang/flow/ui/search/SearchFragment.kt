@@ -20,7 +20,7 @@ import com.oscarliang.flow.R
 import com.oscarliang.flow.databinding.FragmentSearchBinding
 import com.oscarliang.flow.databinding.LayoutAdSmallBinding
 import com.oscarliang.flow.ui.common.ClickListener
-import com.oscarliang.flow.ui.common.NewsListAdapter
+import com.oscarliang.flow.ui.common.NewsAdListAdapter
 import com.oscarliang.flow.ui.news.NewsFragmentDirections
 import com.oscarliang.flow.util.autoCleared
 import org.koin.android.ext.android.inject
@@ -30,7 +30,7 @@ class SearchFragment : Fragment() {
 
     var binding by autoCleared<FragmentSearchBinding>()
     private val viewModel by viewModel<SearchViewModel>()
-    private var newsAdapter by autoCleared<NewsListAdapter>()
+    private var newsAdapter by autoCleared<NewsAdListAdapter>()
 
     private val adBuilder by inject<AdLoader.Builder>()
     private val adRequest by inject<AdRequest>()
@@ -62,7 +62,7 @@ class SearchFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.searchResults = viewModel.searchResults
 
-        this.newsAdapter = NewsListAdapter(
+        this.newsAdapter = NewsAdListAdapter(
             itemClickListener = {
                 findNavController()
                     .navigate(
@@ -82,7 +82,7 @@ class SearchFragment : Fragment() {
                     || requireActivity().isChangingConfigurations
                 ) {
                     nativeAd.destroy()
-                    return@NewsListAdapter null
+                    return@NewsAdListAdapter null
                 }
                 ads.add(nativeAd)
                 LayoutAdSmallBinding.inflate(layoutInflater)

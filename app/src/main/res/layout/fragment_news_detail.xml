@@ -7,6 +7,12 @@
 
         <import type="androidx.lifecycle.LiveData" />
 
+        <import type="com.oscarliang.flow.util.Resource" />
+
+        <import type="com.oscarliang.flow.util.State" />
+
+        <import type="java.util.List" />
+
         <import type="com.oscarliang.flow.model.News" />
 
         <import type="com.oscarliang.flow.ui.common.ItemClickListener" />
@@ -16,12 +22,20 @@
             type="LiveData&lt;News>" />
 
         <variable
+            name="moreNews"
+            type="LiveData&lt;Resource&lt;List&lt;News>>>" />
+
+        <variable
             name="backListener"
             type="com.oscarliang.flow.ui.common.ClickListener" />
 
         <variable
             name="bookmarkListener"
             type="ItemClickListener&lt;News>" />
+
+        <variable
+            name="retryListener"
+            type="com.oscarliang.flow.ui.common.ClickListener" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -75,73 +89,89 @@
             android:id="@+id/nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/app_fg"
+            android:background="@color/app_bg"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/shape_round_rect">
+                android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/text_source"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_large"
-                    android:background="@drawable/ic_label"
-                    android:backgroundTint="@color/purple_500"
-                    android:paddingStart="@dimen/margin_medium"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingEnd="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_small"
-                    android:text="@{news.source.title}"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_body_small"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Source" />
-
-                <TextView
-                    android:id="@+id/text_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:text="@{news.date}"
-                    android:textColor="@color/gray_700"
-                    android:textSize="@dimen/text_body_small"
-                    app:layout_constraintStart_toStartOf="@id/text_source"
-                    app:layout_constraintTop_toBottomOf="@id/text_source"
-                    tools:text="yyyy-MM-dd" />
-
-                <TextView
-                    android:id="@+id/text_body"
+                <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_large"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_large"
-                    android:lineSpacingExtra="@dimen/margin_small"
-                    android:text="@{news.body}"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_body_medium"
+                    android:layout_height="@dimen/interval_large"
+                    android:background="@color/black"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_date"
-                    tools:text="News body more body more body more body more body more body more body" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <FrameLayout
-                    android:id="@+id/frame_layout"
+                <include
+                    android:id="@+id/layout_news_content"
+                    layout="@layout/layout_news_detail"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:news="@{news}" />
+
+                <TextView
+                    android:id="@+id/text_more_news"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_large"
                     android:layout_marginTop="@dimen/margin_large"
-                    android:layout_marginEnd="@dimen/margin_large"
+                    android:background="@drawable/ic_label"
+                    android:backgroundTint="@color/purple_500"
+                    android:paddingStart="@dimen/margin_large"
+                    android:paddingTop="@dimen/margin_small"
+                    android:paddingEnd="@dimen/margin_large"
+                    android:paddingBottom="@dimen/margin_small"
+                    android:text="@string/more_news"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_title_small"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/layout_news_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/more_news_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/interval_large"
+                    android:minHeight="@dimen/layout_more_news_height"
+                    android:nestedScrollingEnabled="false"
+                    android:orientation="vertical"
+                    app:layoutManager="LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_body" />
+                    app:layout_constraintTop_toBottomOf="@id/text_more_news" />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_more_news"
+                    app:shimmer_auto_start="true"
+                    app:showHide="@{moreNews.state == State.LOADING}">
+
+                    <include layout="@layout/layout_news_item_shimmer" />
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <include
+                    android:id="@+id/layout_error_state"
+                    layout="@layout/layout_error_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_large"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_more_news"
+                    app:listener="@{retryListener}"
+                    app:resource="@{moreNews}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

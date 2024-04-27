@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.oscarliang.flow.model.News
 import com.oscarliang.flow.repository.NewsRepository
 import com.oscarliang.flow.util.AbsentLiveData
+import com.oscarliang.flow.util.Resource
 import kotlinx.coroutines.launch
 
 class NewsDetailViewModel(
@@ -26,9 +27,23 @@ class NewsDetailViewModel(
         }
     }
 
+    val moreNews: LiveData<Resource<List<News>>> = news.switchMap { news ->
+        if (news.source == null) {
+            AbsentLiveData.create()
+        } else {
+            repository.getNewsBySource(news.source.id, 4)
+        }
+    }
+
     fun setNewsId(id: String?) {
         if (_id.value != id) {
             _id.value = id
+        }
+    }
+
+    fun retry() {
+        _id.value?.let {
+            _id.value = it
         }
     }
 

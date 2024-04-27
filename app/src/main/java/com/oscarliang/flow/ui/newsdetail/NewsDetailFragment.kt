@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
@@ -15,6 +16,8 @@ import com.oscarliang.flow.databinding.LayoutAdMediumBinding
 import com.oscarliang.flow.model.News
 import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.ItemClickListener
+import com.oscarliang.flow.ui.common.NewsListAdapter
+import com.oscarliang.flow.ui.news.NewsFragmentDirections
 import com.oscarliang.flow.util.autoCleared
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -23,6 +26,7 @@ class NewsDetailFragment : Fragment() {
 
     var binding by autoCleared<FragmentNewsDetailBinding>()
     private val viewModel by viewModel<NewsDetailViewModel>()
+    private var newsAdapter by autoCleared<NewsListAdapter>()
     private val params by navArgs<NewsDetailFragmentArgs>()
 
     private val adBuilder by inject<AdLoader.Builder>()
@@ -52,6 +56,24 @@ class NewsDetailFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.news = viewModel.news
+        binding.moreNews = viewModel.moreNews
+        this.newsAdapter = NewsListAdapter(
+            itemClickListener = {
+                findNavController()
+                    .navigate(
+                        NewsFragmentDirections.actionToNewsDetailFragment(
+                            it.id
+                        )
+                    )
+            },
+            bookmarkClickListener = {
+                viewModel.toggleBookmark(it)
+            }
+        )
+        binding.moreNewsList.apply {
+            adapter = newsAdapter
+            itemAnimator?.changeDuration = 0
+        }
         binding.backListener = object : ClickListener {
             override fun onClick() {
                 NavHostFragment.findNavController(this@NewsDetailFragment).navigateUp()
@@ -62,7 +84,22 @@ class NewsDetailFragment : Fragment() {
                 viewModel.toggleBookmark(item)
             }
         }
+        binding.retryListener = object : ClickListener {
+            override fun onClick() {
+                viewModel.retry()
+            }
+        }
+        initRecyclerView()
         initNativeAd()
+    }
+
+    private fun initRecyclerView() {
+        viewModel.moreNews.observe(viewLifecycleOwner) { result ->
+            // Ignore the loading state, since more news won't be updated
+            result?.data?.let {
+                newsAdapter.submitList(it)
+            }
+        }
     }
 
     private fun initNativeAd() {
@@ -86,8 +123,8 @@ class NewsDetailFragment : Fragment() {
             bindNativeAd(nativeAd, adBinding)
 
             // Remove the previous ads and add new one
-            binding.frameLayout.removeAllViews()
-            binding.frameLayout.addView(adBinding.root)
+            binding.layoutNewsContent.frameLayout.removeAllViews()
+            binding.layoutNewsContent.frameLayout.addView(adBinding.root)
         }.build()
         adLoader.loadAd(adRequest)
     }
