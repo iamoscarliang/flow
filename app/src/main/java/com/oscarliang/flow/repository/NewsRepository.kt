@@ -15,8 +15,6 @@ import com.oscarliang.flow.util.NetworkBoundResource
 import com.oscarliang.flow.util.RateLimiter
 import com.oscarliang.flow.util.Resource
 
-private const val LATEST_NEWS_KEY= "latest"
-
 class NewsRepository(
     private val db: NewsDatabase,
     private val newsDao: NewsDao,
@@ -57,13 +55,8 @@ class NewsRepository(
 
             override suspend fun saveFetchResult(data: NewsSearchResponse) {
                 val news = data.article.news
-                val bookmarks = newsDao.findBookmarks()
-                news.forEach { newData ->
-                    // We prevent overriding bookmark field
-                    newData.bookmark = bookmarks.any { currentData ->
-                        currentData.id == newData.id
-                    }
-                }
+                updateBookmarks(news, newsDao.findBookmarks())
+
                 val newsIds = news.map { it.id }
                 val result = NewsSearchResult(
                     query = LATEST_NEWS_KEY,
@@ -119,13 +112,8 @@ class NewsRepository(
 
             override suspend fun saveFetchResult(data: NewsSearchResponse) {
                 val news = data.article.news
-                val bookmarks = newsDao.findBookmarks()
-                news.forEach { newData ->
-                    // We prevent overriding bookmark field
-                    newData.bookmark = bookmarks.any { currentData ->
-                        currentData.id == newData.id
-                    }
-                }
+                updateBookmarks(news, newsDao.findBookmarks())
+
                 val newsIds = news.map { it.id }
                 val result = NewsSearchResult(
                     query = source,
@@ -183,13 +171,8 @@ class NewsRepository(
 
             override suspend fun saveFetchResult(data: NewsSearchResponse) {
                 val news = data.article.news
-                val bookmarks = newsDao.findBookmarks()
-                news.forEach { newData ->
-                    // We prevent overriding bookmark field
-                    newData.bookmark = bookmarks.any { currentData ->
-                        currentData.id == newData.id
-                    }
-                }
+                updateBookmarks(news, newsDao.findBookmarks())
+
                 val newsIds = news.map { it.id }
                 val result = NewsSearchResult(
                     query = category,
@@ -217,7 +200,7 @@ class NewsRepository(
         date: String,
         count: Int
     ): LiveData<Resource<Boolean>?> {
-        return object :FetchNextSearchPageTask<NewsSearchResult?>(){
+        return object : FetchNextSearchPageTask<NewsSearchResult?>() {
             override suspend fun query(): NewsSearchResult? {
                 return newsDao.findNewsSearchResult(category)
             }
@@ -236,13 +219,7 @@ class NewsRepository(
                     page = current / count + 1
                 )
                 val news = response.article.news
-                val bookmarks = newsDao.findBookmarks()
-                news.forEach { newData ->
-                    // We prevent overriding bookmark field
-                    newData.bookmark = bookmarks.any { currentData ->
-                        currentData.id == newData.id
-                    }
-                }
+                updateBookmarks(news, newsDao.findBookmarks())
 
                 // We merge all new search result into current result list
                 val newsIds = mutableListOf<String>()
@@ -294,13 +271,8 @@ class NewsRepository(
 
             override suspend fun saveFetchResult(data: NewsSearchResponse) {
                 val news = data.article.news
-                val bookmarks = newsDao.findBookmarks()
-                news.forEach { newData ->
-                    // We prevent overriding bookmark field
-                    newData.bookmark = bookmarks.any { currentData ->
-                        currentData.id == newData.id
-                    }
-                }
+                updateBookmarks(news, newsDao.findBookmarks())
+
                 val newsIds = news.map { it.id }
                 val result = NewsSearchResult(
                     query = keyword,
@@ -327,7 +299,7 @@ class NewsRepository(
         keyword: String,
         count: Int
     ): LiveData<Resource<Boolean>?> {
-        return object :FetchNextSearchPageTask<NewsSearchResult?>(){
+        return object : FetchNextSearchPageTask<NewsSearchResult?>() {
             override suspend fun query(): NewsSearchResult? {
                 return newsDao.findNewsSearchResult(keyword)
             }
@@ -345,13 +317,7 @@ class NewsRepository(
                     page = current / count + 1
                 )
                 val news = response.article.news
-                val bookmarks = newsDao.findBookmarks()
-                news.forEach { newData ->
-                    // We prevent overriding bookmark field
-                    newData.bookmark = bookmarks.any { currentData ->
-                        currentData.id == newData.id
-                    }
-                }
+                updateBookmarks(news, newsDao.findBookmarks())
 
                 // We merge all new search result into current result list
                 val newsIds = mutableListOf<String>()
@@ -380,6 +346,19 @@ class NewsRepository(
 
     suspend fun updateNews(news: News) {
         newsDao.updateNews(news)
+    }
+
+    private fun updateBookmarks(news: List<News>, bookmarks: List<News>) {
+        news.forEach { newData ->
+            // Prevent overriding bookmark field
+            newData.bookmark = bookmarks.any { currentData ->
+                currentData.id == newData.id
+            }
+        }
+    }
+
+    companion object {
+        private const val LATEST_NEWS_KEY = "latest"
     }
 
 }

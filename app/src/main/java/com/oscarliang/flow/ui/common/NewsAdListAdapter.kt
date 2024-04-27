@@ -11,10 +11,6 @@ import com.oscarliang.flow.databinding.LayoutAdSmallBinding
 import com.oscarliang.flow.databinding.LayoutNewsItemBinding
 import com.oscarliang.flow.model.News
 
-private const val NEWS_VIEW_TYPE = 0
-private const val AD_VIEW_TYPE = 1
-private const val ITEMS_PER_AD = 10
-
 class NewsAdListAdapter(
     private val itemClickListener: ((News) -> Unit)?,
     private val bookmarkClickListener: ((News) -> Unit)?,
@@ -22,7 +18,7 @@ class NewsAdListAdapter(
     private val adBuilder: AdLoader.Builder,
     private val adRequest: AdRequest
 ) : DataBoundListAdapter<News, LayoutNewsItemBinding>(
-    diffCallback = object : DiffUtil.ItemCallback<News>() {
+    object : DiffUtil.ItemCallback<News>() {
         override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
             return oldItem.id == newItem.id
         }
@@ -88,6 +84,12 @@ class NewsAdListAdapter(
         adBinding.nativeAdView.iconView = adBinding.imageAdIcon
         adBinding.nativeAdView.callToActionView = adBinding.btnAdCta
         adBinding.nativeAdView.setNativeAd(ad)
+    }
+
+    companion object {
+        private const val NEWS_VIEW_TYPE = 0
+        private const val AD_VIEW_TYPE = 1
+        private const val ITEMS_PER_AD = 10
     }
 
 }

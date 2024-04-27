@@ -9,7 +9,7 @@ import com.oscarliang.flow.model.Category
 class CategoryListAdapter(
     private val itemClickListener: ((Category) -> Unit)?,
 ) : DataBoundListAdapter<Category, LayoutCategoryItemBinding>(
-    diffCallback = object : DiffUtil.ItemCallback<Category>() {
+    object : DiffUtil.ItemCallback<Category>() {
         override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
             return oldItem.id == newItem.id
         }

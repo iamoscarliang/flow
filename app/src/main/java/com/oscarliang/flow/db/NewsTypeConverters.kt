@@ -6,9 +6,9 @@ object NewsTypeConverters {
 
     @TypeConverter
     @JvmStatic
-    fun stringToStringList(data: String?): List<String>? {
-        return data?.let {
-            it.split(",").map {
+    fun stringToStringList(string: String?): List<String>? {
+        return string?.let { s ->
+            s.split(",").map {
                 it
             }
         }

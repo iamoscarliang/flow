@@ -22,6 +22,7 @@ import com.oscarliang.flow.databinding.LayoutAdSmallBinding
 import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.NewsAdListAdapter
 import com.oscarliang.flow.ui.news.NewsFragmentDirections
+import com.oscarliang.flow.util.NEWS_PER_PAGE_COUNT
 import com.oscarliang.flow.util.autoCleared
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -155,7 +156,7 @@ class SearchFragment : Fragment() {
             val msg = getString(R.string.empty_search)
             Snackbar.make(binding.coordinatorLayout, msg, Snackbar.LENGTH_LONG).show()
         } else {
-            viewModel.setQuery(query, 10)
+            viewModel.setQuery(query, NEWS_PER_PAGE_COUNT)
         }
     }
 

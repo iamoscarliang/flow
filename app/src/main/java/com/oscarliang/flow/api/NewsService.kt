@@ -1,9 +1,8 @@
 package com.oscarliang.flow.api
 
+import com.oscarliang.flow.util.API_KEY
 import retrofit2.http.GET
 import retrofit2.http.Query
-
-private const val API_KEY = "c5516eeb-b7ce-45c5-b21b-5588a8d670f4"
 
 interface NewsService {
 

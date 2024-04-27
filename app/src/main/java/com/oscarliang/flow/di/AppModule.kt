@@ -15,6 +15,11 @@ import com.oscarliang.flow.ui.news.NewsViewModel
 import com.oscarliang.flow.ui.newsdetail.NewsDetailViewModel
 import com.oscarliang.flow.ui.search.SearchViewModel
 import com.oscarliang.flow.ui.settings.SettingsViewModel
+import com.oscarliang.flow.util.AD_ID
+import com.oscarliang.flow.util.DB_NAME
+import com.oscarliang.flow.util.NEWS_URL
+import com.oscarliang.flow.util.PREFERENCE_NAME
+import com.oscarliang.flow.util.REFRESH_TIMEOUT
 import com.oscarliang.flow.util.RateLimiter
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -30,19 +35,19 @@ val appModule = module {
     }
 
     single {
-        AdLoader.Builder(androidContext(), "ca-app-pub-3940256099942544/2247696110")
+        AdLoader.Builder(androidContext(), AD_ID)
     }
 
     single {
         Retrofit.Builder()
-            .baseUrl("https://eventregistry.org/")
+            .baseUrl(NEWS_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NewsService::class.java)
     }
 
     single {
-        Room.databaseBuilder(androidContext(), NewsDatabase::class.java, "news.db")
+        Room.databaseBuilder(androidContext(), NewsDatabase::class.java, DB_NAME)
             .fallbackToDestructiveMigration()
             .build()
     }
@@ -58,11 +63,11 @@ val appModule = module {
     }
 
     single {
-        androidContext().getSharedPreferences("user_preferences", Context.MODE_PRIVATE)
+        androidContext().getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
     }
 
     single {
-        RateLimiter<String>(10, TimeUnit.MINUTES)
+        RateLimiter<String>(REFRESH_TIMEOUT, TimeUnit.MINUTES)
     }
 
     single {

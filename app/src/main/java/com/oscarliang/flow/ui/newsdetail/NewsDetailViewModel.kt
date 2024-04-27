@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.oscarliang.flow.model.News
 import com.oscarliang.flow.repository.NewsRepository
 import com.oscarliang.flow.util.AbsentLiveData
+import com.oscarliang.flow.util.NEWS_MORE_CONTENT_COUNT
 import com.oscarliang.flow.util.Resource
 import kotlinx.coroutines.launch
 
@@ -31,7 +32,7 @@ class NewsDetailViewModel(
         if (news.source == null) {
             AbsentLiveData.create()
         } else {
-            repository.getNewsBySource(news.source.id, 4)
+            repository.getNewsBySource(news.source.id, NEWS_MORE_CONTENT_COUNT)
         }
     }
 

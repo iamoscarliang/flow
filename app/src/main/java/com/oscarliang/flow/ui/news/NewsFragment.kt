@@ -18,6 +18,8 @@ import com.oscarliang.flow.ui.common.CategoryListAdapter
 import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.LatestNewsListAdapter
 import com.oscarliang.flow.ui.common.NewsAdListAdapter
+import com.oscarliang.flow.util.NEWS_LATEST_TIME
+import com.oscarliang.flow.util.NEWS_PER_PAGE_COUNT
 import com.oscarliang.flow.util.TimeConverter.getTimePassBy
 import com.oscarliang.flow.util.autoCleared
 import org.koin.android.ext.android.inject
@@ -60,7 +62,7 @@ class NewsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.setQuery(getTimePassBy(24), 10)
+        viewModel.setQuery(getTimePassBy(NEWS_LATEST_TIME), NEWS_PER_PAGE_COUNT)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.latestNews = viewModel.latestNews

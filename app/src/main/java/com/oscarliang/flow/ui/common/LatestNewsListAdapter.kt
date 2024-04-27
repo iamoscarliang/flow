@@ -10,7 +10,7 @@ class LatestNewsListAdapter(
     private val itemClickListener: ((News) -> Unit)?,
     private val bookmarkClickListener: ((News) -> Unit)?
 ) : DataBoundListAdapter<News, LayoutLatestNewsItemBinding>(
-    diffCallback = object : DiffUtil.ItemCallback<News>() {
+    object : DiffUtil.ItemCallback<News>() {
         override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
             return oldItem.id == newItem.id
         }
