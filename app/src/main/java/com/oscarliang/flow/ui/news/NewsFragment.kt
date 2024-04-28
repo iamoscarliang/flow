@@ -185,7 +185,7 @@ class NewsFragment : Fragment() {
                     // [-Infinity, -1)
                     position < -1 -> {
                         // This page is way off-screen to the left
-                        alpha = 0f
+                        alpha = minAlpha
                     }
 
                     // [-1, 1]
@@ -213,7 +213,7 @@ class NewsFragment : Fragment() {
                     // (1, +Infinity]
                     else -> {
                         // This page is way off-screen to the right
-                        alpha = 0f
+                        alpha = minAlpha
                     }
                 }
             }

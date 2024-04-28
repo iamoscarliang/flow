@@ -32,7 +32,7 @@
         android:id="@+id/text_body"
         android:layout_width="0dp"
         android:layout_height="@dimen/interval_small"
-        android:layout_marginBottom="@dimen/interval_large"
+        android:layout_marginBottom="@dimen/interval_small"
         android:background="@color/gray_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="6:1"
