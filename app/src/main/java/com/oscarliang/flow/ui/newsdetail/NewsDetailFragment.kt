@@ -76,7 +76,9 @@ class NewsDetailFragment : Fragment() {
             adLoadListener = { nativeAd ->
                 // If this callback occurs after the activity is destroyed, we must call
                 // destroy and return or we may get a memory leak
-                if (requireActivity().isDestroyed
+                if (isDetached
+                    || activity == null
+                    || requireActivity().isDestroyed
                     || requireActivity().isFinishing
                     || requireActivity().isChangingConfigurations
                 ) {
