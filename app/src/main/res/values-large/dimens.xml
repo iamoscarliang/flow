@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Layout size -->
+    <dimen name="layout_latest_news_item_height">500dp</dimen>
+    <dimen name="layout_latest_news_bg_height">562.5dp</dimen>
+    <dimen name="layout_category_item_height">50dp</dimen>
+    <dimen name="layout_category_bg_height">62.5dp</dimen>
+    <dimen name="layout_news_item_height">150dp</dimen>
+    <dimen name="layout_ad_small_item_height">150dp</dimen>
+    <dimen name="layout_ad_medium_item_height">450dp</dimen>
+    <dimen name="layout_loading_state_height">87.5dp</dimen>
+    <dimen name="layout_toolbar_height">125dp</dimen>
+    <dimen name="layout_dialog_width">400dp</dimen>
+
+    <!-- View size -->
+    <dimen name="btn_bookmark_small_width">37.5dp</dimen>
+    <dimen name="btn_bookmark_large_width">62.5dp</dimen>
+    <dimen name="image_dot_height">12.5dp</dimen>
+
+    <!-- Text size -->
+    <dimen name="text_body_small">15sp</dimen>
+    <dimen name="text_body_medium">18.75sp</dimen>
+    <dimen name="text_body_large">22.5sp</dimen>
+    <dimen name="text_title_small">25sp</dimen>
+    <dimen name="text_title_medium">31.25sp</dimen>
+    <dimen name="text_title_large">37.5sp</dimen>
+
+    <!-- Spacing size -->
+    <dimen name="padding_small">1.25dp</dimen>
+    <dimen name="padding_medium">2.5dp</dimen>
+    <dimen name="padding_large">3.75dp</dimen>
+    <dimen name="margin_small">6.25dp</dimen>
+    <dimen name="margin_medium">12.5dp</dimen>
+    <dimen name="margin_large">25dp</dimen>
+    <dimen name="interval_small">37.5dp</dimen>
+    <dimen name="interval_medium">50dp</dimen>
+    <dimen name="interval_large">62.5dp</dimen>
+</resources>

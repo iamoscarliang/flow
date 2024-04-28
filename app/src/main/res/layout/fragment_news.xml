@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -130,7 +131,8 @@
                             android:layout_height="match_parent"
                             android:orientation="horizontal"
                             app:layoutManager="LinearLayoutManager"
-                            app:showHide="@{latestNews.data.size() != 0}" />
+                            app:showHide="@{latestNews.data.size() != 0}"
+                            tools:listitem="@layout/layout_category_item" />
 
                     </androidx.appcompat.widget.Toolbar>
 
@@ -159,7 +161,9 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:spanCount="@integer/column_count" />
+                        app:spanCount="@integer/column_count"
+                        tools:itemCount="12"
+                        tools:listitem="@layout/layout_news_item" />
 
                     <include
                         android:id="@+id/layout_loading_state"
@@ -179,7 +183,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:shimmer_auto_start="true"
-                        app:showHide="@{news.state == State.LOADING}">
+                        app:showHide="@{news.state == State.LOADING}"
+                        tools:visibility="gone">
 
                         <include layout="@layout/layout_news_item_shimmer" />
 

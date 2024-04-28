@@ -123,14 +123,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/interval_large"
-                    android:minHeight="@dimen/layout_more_news_height"
+                    android:minHeight="@dimen/layout_news_item_height"
                     android:nestedScrollingEnabled="false"
                     android:orientation="vertical"
                     app:layoutManager="LinearLayoutManager"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/text_more_news" />
+                    app:layout_constraintTop_toBottomOf="@id/text_more_news"
+                    tools:listitem="@layout/layout_news_item" />
 
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:layout_width="match_parent"
@@ -140,7 +141,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_more_news"
                     app:shimmer_auto_start="true"
-                    app:showHide="@{moreNews.state == State.LOADING}">
+                    app:showHide="@{moreNews.state == State.LOADING}"
+                    tools:visibility="gone">
 
                     <include layout="@layout/layout_news_item_shimmer" />
 
@@ -156,7 +158,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_more_news"
                     app:listener="@{retryListener}"
-                    app:resource="@{moreNews}" />
+                    app:resource="@{moreNews}"
+                    tools:visibility="gone" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

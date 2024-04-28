@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -91,7 +92,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:spanCount="@integer/column_count" />
+                    app:spanCount="@integer/column_count"
+                    tools:itemCount="12"
+                    tools:listitem="@layout/layout_news_item" />
 
                 <include
                     android:id="@+id/layout_loading_state"
@@ -112,7 +115,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shimmer_auto_start="true"
-                    app:showHide="@{searchResults.state == State.LOADING}">
+                    app:showHide="@{searchResults.state == State.LOADING}"
+                    tools:visibility="gone">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -138,7 +142,8 @@
             android:text="@string/empty_search_result"
             android:textColor="@color/gray_500"
             android:textSize="@dimen/text_title_small"
-            app:showHide="@{searchResults.state == State.SUCCESS &amp;&amp; searchResults.data.size == 0}" />
+            app:showHide="@{searchResults.state == State.SUCCESS &amp;&amp; searchResults.data.size == 0}"
+            tools:visibility="gone" />
 
         <include
             android:id="@+id/layout_error_state"
@@ -147,7 +152,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:listener="@{listener}"
-            app:resource="@{searchResults}" />
+            app:resource="@{searchResults}"
+            tools:visibility="gone" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

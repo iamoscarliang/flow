@@ -7,7 +7,7 @@ const val DB_NAME = "news.db"
 const val PREFERENCE_NAME = "user_preferences"
 
 const val NEWS_PER_PAGE_COUNT = 20
-const val NEWS_LATEST_COUNT = 10
+const val NEWS_LATEST_COUNT = 8
 const val NEWS_MORE_CONTENT_COUNT = 6
-const val NEWS_LATEST_TIME = 24
-const val REFRESH_TIMEOUT = 1
+const val NEWS_LATEST_TIME = 24   // Time before in hour
+const val REFRESH_TIMEOUT = 3   // Refresh interval in minute

@@ -32,9 +32,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:backgroundTint="@color/purple_500"
+            tools:backgroundTint="@color/app_bg"
             tools:text="Category"
-            tools:textColor="@color/white" />
+            tools:textColor="@color/gray_500" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
