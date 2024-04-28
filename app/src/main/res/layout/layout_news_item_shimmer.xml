@@ -6,13 +6,13 @@
     android:layout_marginStart="@dimen/margin_medium"
     android:layout_marginTop="@dimen/margin_small"
     android:layout_marginEnd="@dimen/margin_medium"
-    android:layout_marginBottom="@dimen/margin_medium">
+    android:layout_marginBottom="@dimen/margin_medium"
+    android:padding="@dimen/margin_medium">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/image_news"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/margin_medium"
         android:background="@color/gray_500"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
@@ -24,7 +24,7 @@
         android:id="@+id/text_source"
         android:layout_width="0dp"
         android:layout_height="@dimen/interval_small"
-        android:layout_margin="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_medium"
         android:background="@color/gray_500"
         app:layout_constraintDimensionRatio="4:1"
         app:layout_constraintStart_toEndOf="@id/image_news"
@@ -36,7 +36,6 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/interval_small"
         android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_large"
         android:background="@color/gray_500"
         app:layout_constraintDimensionRatio="6:1"
         app:layout_constraintStart_toStartOf="@id/text_source"

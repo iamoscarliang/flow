@@ -36,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layoutManager="LinearLayoutManager" />
+            app:layoutManager="GridLayoutManager"
+            app:spanCount="@integer/column_count" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -16,7 +16,7 @@ import com.oscarliang.flow.databinding.LayoutAdMediumBinding
 import com.oscarliang.flow.model.News
 import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.ItemClickListener
-import com.oscarliang.flow.ui.common.NewsListAdapter
+import com.oscarliang.flow.ui.common.NewsMediumAdListAdapter
 import com.oscarliang.flow.ui.news.NewsFragmentDirections
 import com.oscarliang.flow.util.autoCleared
 import org.koin.android.ext.android.inject
@@ -26,12 +26,12 @@ class NewsDetailFragment : Fragment() {
 
     var binding by autoCleared<FragmentNewsDetailBinding>()
     private val viewModel by viewModel<NewsDetailViewModel>()
-    private var newsAdapter by autoCleared<NewsListAdapter>()
+    private var newsAdapter by autoCleared<NewsMediumAdListAdapter>()
     private val params by navArgs<NewsDetailFragmentArgs>()
 
     private val adBuilder by inject<AdLoader.Builder>()
     private val adRequest by inject<AdRequest>()
-    private var currentNativeAd: NativeAd? = null
+    private val ads = ArrayList<NativeAd>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +47,11 @@ class NewsDetailFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        currentNativeAd?.destroy()
+        // Must call destroy on old ads, otherwise we will have a memory leak
+        ads.forEach {
+            it.destroy()
+        }
+        ads.clear()
         super.onDestroyView()
     }
 
@@ -57,7 +61,7 @@ class NewsDetailFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.news = viewModel.news
         binding.moreNews = viewModel.moreNews
-        this.newsAdapter = NewsListAdapter(
+        this.newsAdapter = NewsMediumAdListAdapter(
             itemClickListener = {
                 findNavController()
                     .navigate(
@@ -68,7 +72,22 @@ class NewsDetailFragment : Fragment() {
             },
             bookmarkClickListener = {
                 viewModel.toggleBookmark(it)
-            }
+            },
+            adLoadListener = { nativeAd ->
+                // If this callback occurs after the activity is destroyed, we must call
+                // destroy and return or we may get a memory leak
+                if (requireActivity().isDestroyed
+                    || requireActivity().isFinishing
+                    || requireActivity().isChangingConfigurations
+                ) {
+                    nativeAd.destroy()
+                    return@NewsMediumAdListAdapter null
+                }
+                ads.add(nativeAd)
+                LayoutAdMediumBinding.inflate(layoutInflater)
+            },
+            adBuilder = adBuilder,
+            adRequest = adRequest
         )
         binding.moreNewsList.apply {
             adapter = newsAdapter
@@ -90,7 +109,6 @@ class NewsDetailFragment : Fragment() {
             }
         }
         initRecyclerView()
-        initNativeAd()
     }
 
     private fun initRecyclerView() {
@@ -100,44 +118,6 @@ class NewsDetailFragment : Fragment() {
                 newsAdapter.submitList(it)
             }
         }
-    }
-
-    private fun initNativeAd() {
-        val adLoader = adBuilder.forNativeAd { nativeAd ->
-            // If this callback occurs after the activity is destroyed, we must call
-            // destroy and return or we may get a memory leak
-            if (requireActivity().isDestroyed
-                || requireActivity().isFinishing
-                || requireActivity().isChangingConfigurations
-            ) {
-                nativeAd.destroy()
-                return@forNativeAd
-            }
-
-            // Must call destroy on old ads, otherwise we will have a memory leak
-            currentNativeAd?.destroy()
-            currentNativeAd = nativeAd
-
-            // Inflate the ads layout and display the ads
-            val adBinding = LayoutAdMediumBinding.inflate(layoutInflater)
-            bindNativeAd(nativeAd, adBinding)
-
-            // Remove the previous ads and add new one
-            binding.layoutNewsContent.frameLayout.removeAllViews()
-            binding.layoutNewsContent.frameLayout.addView(adBinding.root)
-        }.build()
-        adLoader.loadAd(adRequest)
-    }
-
-    private fun bindNativeAd(ad: NativeAd, adBinding: LayoutAdMediumBinding) {
-        adBinding.ad = ad
-        adBinding.nativeAdView.headlineView = adBinding.textAdHeadline
-        adBinding.nativeAdView.bodyView = adBinding.textAdBody
-        adBinding.nativeAdView.starRatingView = adBinding.ratingBar
-        adBinding.nativeAdView.iconView = adBinding.imageAdIcon
-        adBinding.nativeAdView.callToActionView = adBinding.btnAdCta
-        adBinding.nativeAdView.mediaView = adBinding.mediaView
-        adBinding.nativeAdView.setNativeAd(ad)
     }
 
 }

@@ -12,7 +12,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/layout_news_item_height"
+        android:layout_height="@dimen/layout_ad_small_item_height"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
@@ -26,13 +26,13 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:padding="@dimen/margin_medium">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/image_ad_icon"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_margin="@dimen/margin_medium"
                     android:scaleType="centerCrop"
                     app:imageDrawable="@{ad.icon.drawable}"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -51,8 +51,9 @@
                     android:maxLines="1"
                     android:text="@{ad.headline}"
                     android:textColor="@color/gray_700"
-                    android:textSize="@dimen/text_body_large"
+                    android:textSize="@dimen/text_body_medium"
                     android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/image_ad_icon"
                     app:layout_constraintTop_toTopOf="@id/image_ad_icon"
                     tools:text="Ad headline" />
@@ -100,8 +101,6 @@
                     android:id="@+id/btn_ad_cta"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:layout_marginEnd="@dimen/margin_large"
                     android:backgroundTint="@color/purple_500"
                     android:text="@{ad.callToAction}"
                     android:textColor="@color/white"

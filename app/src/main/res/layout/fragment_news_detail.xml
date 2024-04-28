@@ -96,16 +96,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/interval_large"
-                    android:background="@color/black"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <include
-                    android:id="@+id/layout_news_content"
+                    android:id="@+id/layout_news_detail"
                     layout="@layout/layout_news_detail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -118,19 +110,12 @@
                     android:id="@+id/text_more_news"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_large"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:background="@drawable/ic_label"
-                    android:backgroundTint="@color/purple_500"
-                    android:paddingStart="@dimen/margin_large"
-                    android:paddingTop="@dimen/margin_small"
-                    android:paddingEnd="@dimen/margin_large"
-                    android:paddingBottom="@dimen/margin_small"
+                    android:layout_margin="@dimen/margin_large"
                     android:text="@string/more_news"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_title_small"
+                    android:textColor="@color/gray_700"
+                    android:textSize="@dimen/text_body_large"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_news_content" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_news_detail" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/more_news_list"

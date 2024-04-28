@@ -17,7 +17,8 @@ import com.oscarliang.flow.databinding.LayoutAdSmallBinding
 import com.oscarliang.flow.ui.common.CategoryListAdapter
 import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.LatestNewsListAdapter
-import com.oscarliang.flow.ui.common.NewsAdListAdapter
+import com.oscarliang.flow.ui.common.NewsSmallAdListAdapter
+import com.oscarliang.flow.util.NEWS_LATEST_COUNT
 import com.oscarliang.flow.util.NEWS_LATEST_TIME
 import com.oscarliang.flow.util.NEWS_PER_PAGE_COUNT
 import com.oscarliang.flow.util.TimeConverter.getTimePassBy
@@ -32,7 +33,7 @@ class NewsFragment : Fragment() {
     var binding by autoCleared<FragmentNewsBinding>()
     private val viewModel by viewModel<NewsViewModel>()
     private var latestNewsAdapter by autoCleared<LatestNewsListAdapter>()
-    private var newsAdapter by autoCleared<NewsAdListAdapter>()
+    private var newsAdapter by autoCleared<NewsSmallAdListAdapter>()
     private var categoryAdapter by autoCleared<CategoryListAdapter>()
 
     private val adBuilder by inject<AdLoader.Builder>()
@@ -62,7 +63,9 @@ class NewsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.setQuery(getTimePassBy(NEWS_LATEST_TIME), NEWS_PER_PAGE_COUNT)
+        val date = getTimePassBy(NEWS_LATEST_TIME)
+        viewModel.setLatestQuery(date, NEWS_LATEST_COUNT)
+        viewModel.setCategoryQuery(date, NEWS_PER_PAGE_COUNT)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.latestNews = viewModel.latestNews
@@ -81,7 +84,7 @@ class NewsFragment : Fragment() {
                 viewModel.toggleBookmark(it)
             }
         )
-        this.newsAdapter = NewsAdListAdapter(
+        this.newsAdapter = NewsSmallAdListAdapter(
             itemClickListener = {
                 findNavController()
                     .navigate(
@@ -101,7 +104,7 @@ class NewsFragment : Fragment() {
                     || requireActivity().isChangingConfigurations
                 ) {
                     nativeAd.destroy()
-                    return@NewsAdListAdapter null
+                    return@NewsSmallAdListAdapter null
                 }
                 ads.add(nativeAd)
                 LayoutAdSmallBinding.inflate(layoutInflater)
@@ -171,29 +174,31 @@ class NewsFragment : Fragment() {
     }
 
     private fun initViewPagerAnimation() {
+        binding.latestNewsList.offscreenPageLimit = 2
         binding.latestNewsList.setPageTransformer { view, position ->
             view.apply {
                 val minScale = 0.85f
-                val minAlpha = 0.5f
+                val minAlpha = 0.6f
                 val pageWidth = width
                 val pageHeight = height
                 when {
-                    // [-Infinity,-1)
+                    // [-Infinity, -1)
                     position < -1 -> {
                         // This page is way off-screen to the left
                         alpha = 0f
                     }
 
-                    // [-1,1]
+                    // [-1, 1]
                     position <= 1 -> {
                         // Modify the default slide transition to shrink the page as well
                         val scaleFactor = max(minScale, 1 - abs(position))
                         val verticalMargin = pageHeight * (1 - scaleFactor) / 2
                         val horizontalMargin = pageWidth * (1 - scaleFactor) / 2
+                        val translation = horizontalMargin - verticalMargin / 2
                         translationX = if (position < 0) {
-                            horizontalMargin - verticalMargin / 2
+                            translation
                         } else {
-                            horizontalMargin + verticalMargin / 2
+                            -translation
                         }
 
                         // Scale the page down (between MIN_SCALE and 1)
@@ -205,7 +210,7 @@ class NewsFragment : Fragment() {
                                 (((scaleFactor - minScale) / (1 - minScale)) * (1 - minAlpha)))
                     }
 
-                    // (1,+Infinity]
+                    // (1, +Infinity]
                     else -> {
                         // This page is way off-screen to the right
                         alpha = 0f

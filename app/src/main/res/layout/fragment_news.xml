@@ -62,13 +62,25 @@
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/layout_latest_news_item_height"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
                         app:layout_collapseMode="parallax">
 
                         <androidx.viewpager2.widget.ViewPager2
                             android:id="@+id/latest_news_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="horizontal" />
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginStart="@dimen/interval_large"
+                            android:layout_marginTop="@dimen/margin_medium"
+                            android:layout_marginEnd="@dimen/interval_large"
+                            android:layout_marginBottom="@dimen/margin_medium"
+                            android:clipChildren="false"
+                            android:clipToPadding="false"
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
                             android:id="@+id/dots_indicator"
@@ -87,8 +99,13 @@
                             app:showHide="@{latestNews.data.size() != 0}" />
 
                         <com.facebook.shimmer.ShimmerFrameLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:id="@+id/shimmerFrameLayout3"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/latest_news_list"
+                            app:layout_constraintEnd_toEndOf="@+id/latest_news_list"
+                            app:layout_constraintStart_toStartOf="@+id/latest_news_list"
+                            app:layout_constraintTop_toTopOf="@+id/latest_news_list"
                             app:shimmer_auto_start="true"
                             app:showHide="@{latestNews.state == State.LOADING}">
 
@@ -137,11 +154,12 @@
                         android:layout_height="wrap_content"
                         android:nestedScrollingEnabled="false"
                         android:orientation="vertical"
-                        app:layoutManager="LinearLayoutManager"
+                        app:layoutManager="StaggeredGridLayoutManager"
                         app:layout_constraintBottom_toTopOf="@id/layout_loading_state"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:spanCount="@integer/column_count" />
 
                     <include
                         android:id="@+id/layout_loading_state"

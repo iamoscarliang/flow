@@ -14,50 +14,38 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/margin_large"
-        android:layout_marginTop="@dimen/margin_medium"
-        android:layout_marginEnd="@dimen/margin_large"
-        android:layout_marginBottom="@dimen/margin_medium"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="@dimen/margin_large"
         app:cardElevation="@dimen/margin_small">
 
+        <ImageView
+            android:id="@+id/image_news"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{news.image}"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/color_gradient" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/image_news"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:scaleType="centerCrop"
-                app:imageUrl="@{news.image}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@tools:sample/backgrounds/scenic" />
-
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@drawable/color_gradient"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_large">
 
             <TextView
                 android:id="@+id/text_source"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_large"
                 android:background="@drawable/ic_label"
                 android:backgroundTint="@color/purple_500"
                 android:ellipsize="end"
-                android:maxLength="25"
+                android:maxLength="30"
                 android:maxLines="1"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingTop="@dimen/margin_small"
@@ -74,7 +62,6 @@
                 android:id="@+id/btn_bookmark"
                 android:layout_width="@dimen/btn_bookmark_large_width"
                 android:layout_height="@dimen/btn_bookmark_large_width"
-                android:layout_margin="@dimen/margin_medium"
                 android:background="@{news.bookmark ? @drawable/ic_bookmark : @drawable/ic_bookmark_border}"
                 android:backgroundTint="@{news.bookmark ? @color/purple_500 : @color/white}"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -85,8 +72,6 @@
                 android:id="@+id/text_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:ellipsize="end"
                 android:maxLines="@integer/line_count"
@@ -102,8 +87,6 @@
                 android:id="@+id/text_body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_large"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:ellipsize="end"
                 android:maxLines="@integer/line_count"
@@ -119,8 +102,7 @@
                 android:id="@+id/text_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_large"
-                android:layout_marginBottom="@dimen/interval_small"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:text="@{news.date}"
                 android:textColor="@color/gray_500"
                 android:textSize="@dimen/text_body_small"

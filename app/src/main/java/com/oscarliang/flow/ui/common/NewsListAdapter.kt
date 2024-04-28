@@ -27,7 +27,7 @@ class NewsListAdapter(
             parent,
             false
         )
-        binding.cardView.setOnClickListener {
+        binding.root.setOnClickListener {
             binding.news?.let {
                 itemClickListener?.invoke(it)
             }

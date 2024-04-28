@@ -53,14 +53,21 @@ class NewsViewModel(
     val loadMoreState: LiveData<LoadMoreState>
         get() = nextPageHandler.loadMoreState
 
-    fun setQuery(date: String, count: Int) {
+    fun setLatestQuery(date: String, count: Int) {
         val update = Query(date, count)
         if (_query.value == update) {
             return
         }
+        _query.value = update
+    }
+
+    fun setCategoryQuery(date: String, count: Int) {
+        val update = Query(date, count)
+        if (_categoryState.value?.query == update) {
+            return
+        }
         nextPageHandler.reset()
         categoryHandler.setQuery(update)
-        _query.value = update
     }
 
     fun loadNextPage() {

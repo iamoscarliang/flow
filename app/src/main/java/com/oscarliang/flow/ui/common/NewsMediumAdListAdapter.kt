@@ -7,17 +7,17 @@ import androidx.recyclerview.widget.DiffUtil
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAd
-import com.oscarliang.flow.databinding.LayoutAdSmallBinding
-import com.oscarliang.flow.databinding.LayoutNewsItemBinding
+import com.oscarliang.flow.databinding.LayoutAdMediumBinding
+import com.oscarliang.flow.databinding.LayoutNewsAdMediumItemBinding
 import com.oscarliang.flow.model.News
 
-class NewsAdListAdapter(
+class NewsMediumAdListAdapter(
     private val itemClickListener: ((News) -> Unit)?,
     private val bookmarkClickListener: ((News) -> Unit)?,
-    private val adLoadListener: (NativeAd) -> LayoutAdSmallBinding?,
+    private val adLoadListener: (NativeAd) -> LayoutAdMediumBinding?,
     private val adBuilder: AdLoader.Builder,
     private val adRequest: AdRequest
-) : DataBoundListAdapter<News, LayoutNewsItemBinding>(
+) : DataBoundListAdapter<News, LayoutNewsAdMediumItemBinding>(
     object : DiffUtil.ItemCallback<News>() {
         override fun areItemsTheSame(oldItem: News, newItem: News): Boolean {
             return oldItem.id == newItem.id
@@ -30,25 +30,25 @@ class NewsAdListAdapter(
 ) {
 
     override fun getItemViewType(position: Int): Int {
-        return if (position % ITEMS_PER_AD == 4) {
+        return if (position % ITEMS_PER_AD == 2) {
             AD_VIEW_TYPE
         } else {
             NEWS_VIEW_TYPE
         }
     }
 
-    override fun createBinding(parent: ViewGroup, viewType: Int): LayoutNewsItemBinding {
-        val binding = LayoutNewsItemBinding.inflate(
+    override fun createBinding(parent: ViewGroup, viewType: Int): LayoutNewsAdMediumItemBinding {
+        val binding = LayoutNewsAdMediumItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        binding.cardView.setOnClickListener {
+        binding.layoutNewsItem.root.setOnClickListener {
             binding.news?.let {
                 itemClickListener?.invoke(it)
             }
         }
-        binding.btnBookmark.setOnClickListener {
+        binding.layoutNewsItem.btnBookmark.setOnClickListener {
             binding.news?.let {
                 bookmarkClickListener?.invoke(it)
             }
@@ -59,11 +59,11 @@ class NewsAdListAdapter(
         return binding
     }
 
-    override fun bind(binding: LayoutNewsItemBinding, item: News) {
+    override fun bind(binding: LayoutNewsAdMediumItemBinding, item: News) {
         binding.news = item
     }
 
-    private fun initNativeAd(binding: LayoutNewsItemBinding) {
+    private fun initNativeAd(binding: LayoutNewsAdMediumItemBinding) {
         val adLoader = adBuilder.forNativeAd { nativeAd ->
             val adBinding = adLoadListener(nativeAd)
             adBinding?.let {
@@ -77,19 +77,21 @@ class NewsAdListAdapter(
         adLoader.loadAd(adRequest)
     }
 
-    private fun bindNativeAd(ad: NativeAd, adBinding: LayoutAdSmallBinding) {
+    private fun bindNativeAd(ad: NativeAd, adBinding: LayoutAdMediumBinding) {
         adBinding.ad = ad
         adBinding.nativeAdView.headlineView = adBinding.textAdHeadline
+        adBinding.nativeAdView.bodyView = adBinding.textAdBody
         adBinding.nativeAdView.starRatingView = adBinding.ratingBar
         adBinding.nativeAdView.iconView = adBinding.imageAdIcon
         adBinding.nativeAdView.callToActionView = adBinding.btnAdCta
+        adBinding.nativeAdView.mediaView = adBinding.mediaView
         adBinding.nativeAdView.setNativeAd(ad)
     }
 
     companion object {
         private const val NEWS_VIEW_TYPE = 0
         private const val AD_VIEW_TYPE = 1
-        private const val ITEMS_PER_AD = 10
+        private const val ITEMS_PER_AD = 6
     }
 
 }
