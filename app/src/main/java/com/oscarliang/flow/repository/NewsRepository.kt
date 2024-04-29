@@ -136,7 +136,7 @@ class NewsRepository(
         }.asLiveData()
     }
 
-    fun searchCategory(
+    fun getNewsByCategory(
         category: String,
         date: String,
         count: Int
@@ -162,7 +162,7 @@ class NewsRepository(
             }
 
             override suspend fun fetch(): NewsSearchResponse {
-                return service.searchCategory(
+                return service.getNewsByCategory(
                     category = category,
                     date = date,
                     count = count
@@ -195,7 +195,7 @@ class NewsRepository(
         }.asLiveData()
     }
 
-    fun searchCategoryNextPage(
+    fun getCategoryNextPage(
         category: String,
         date: String,
         count: Int
@@ -212,7 +212,7 @@ class NewsRepository(
 
             override suspend fun fetchNextPage(data: NewsSearchResult?) {
                 val current = data!!.newsIds.size
-                val response = service.searchCategory(
+                val response = service.getNewsByCategory(
                     category = category,
                     date = date,
                     count = count,

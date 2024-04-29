@@ -36,7 +36,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="@dimen/margin_large">
+            android:padding="@dimen/margin_medium">
 
             <TextView
                 android:id="@+id/text_source"
@@ -72,6 +72,8 @@
                 android:id="@+id/text_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:ellipsize="end"
                 android:maxLines="@integer/line_count"
@@ -94,20 +96,20 @@
                 android:textColor="@color/gray_500"
                 android:textSize="@dimen/text_body_small"
                 app:layout_constraintBottom_toTopOf="@id/text_date"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/text_title"
+                app:layout_constraintStart_toStartOf="@id/text_title"
                 tools:text="News body more body more body more body more body more body more body more body more body more body more body" />
 
             <TextView
                 android:id="@+id/text_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/interval_small"
                 android:text="@{news.date}"
                 android:textColor="@color/gray_500"
                 android:textSize="@dimen/text_body_small"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@id/text_title"
                 tools:text="yyyy-MM-dd" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

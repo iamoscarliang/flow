@@ -40,7 +40,7 @@ class NewsViewModel(
     }
     val news: LiveData<Resource<List<News>>> = _categoryState.switchMap { input ->
         input.ifExists { category, date, count ->
-            newsRepository.searchCategory(
+            newsRepository.getNewsByCategory(
                 category = category,
                 date = date,
                 count = count
@@ -74,7 +74,7 @@ class NewsViewModel(
         _categoryState.value?.let {
             if (it.category.isNotBlank()) {
                 nextPageHandler.queryNextPage {
-                    newsRepository.searchCategoryNextPage(
+                    newsRepository.getCategoryNextPage(
                         it.category,
                         it.query.date,
                         it.query.count

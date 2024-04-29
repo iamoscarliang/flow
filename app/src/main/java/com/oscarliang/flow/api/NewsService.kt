@@ -23,31 +23,13 @@ interface NewsService {
     ): NewsSearchResponse
 
     @GET("api/v1/article/getArticles")
-    suspend fun searchCategory(
-        @Query("apiKey") key: String = API_KEY,
-        @Query("lang") language: String = "eng",
-        @Query("categoryUri") category: String,
-        @Query("dateStart") date: String,
-        @Query("articlesCount") count: Int
-    ): NewsSearchResponse
-
-    @GET("api/v1/article/getArticles")
-    suspend fun searchCategory(
+    suspend fun getNewsByCategory(
         @Query("apiKey") key: String = API_KEY,
         @Query("lang") language: String = "eng",
         @Query("categoryUri") category: String,
         @Query("dateStart") date: String,
         @Query("articlesCount") count: Int,
-        @Query("articlesPage") page: Int
-    ): NewsSearchResponse
-
-    @GET("api/v1/article/getArticles")
-    suspend fun searchNews(
-        @Query("apiKey") key: String = API_KEY,
-        @Query("lang") language: String = "eng",
-        @Query("forceMaxDataTimeWindow") maxDataTime: Int = 7,
-        @Query("keyword") keyword: String,
-        @Query("articlesCount") count: Int
+        @Query("articlesPage") page: Int = 1
     ): NewsSearchResponse
 
     @GET("api/v1/article/getArticles")
@@ -57,7 +39,7 @@ interface NewsService {
         @Query("forceMaxDataTimeWindow") maxDataTime: Int = 7,
         @Query("keyword") keyword: String,
         @Query("articlesCount") count: Int,
-        @Query("articlesPage") page: Int
+        @Query("articlesPage") page: Int = 1
     ): NewsSearchResponse
 
 }
