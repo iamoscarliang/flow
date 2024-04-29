@@ -358,7 +358,7 @@ class NewsRepository(
     }
 
     companion object {
-        private const val LATEST_NEWS_KEY = "latest"
+        const val LATEST_NEWS_KEY = "latest"
     }
 
 }
