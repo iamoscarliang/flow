@@ -21,7 +21,7 @@ class NewsDetailViewModel(
         get() = _id
 
     val news: LiveData<News> = _id.switchMap { id ->
-        if (id == null) {
+        if (id.isNullOrBlank()) {
             AbsentLiveData.create()
         } else {
             repository.getNewsById(id)
@@ -29,7 +29,7 @@ class NewsDetailViewModel(
     }
 
     val moreNews: LiveData<Resource<List<News>>> = news.switchMap { news ->
-        if (news.source == null) {
+        if (news.source == null || news.source.id.isBlank()) {
             AbsentLiveData.create()
         } else {
             repository.getNewsBySource(news.source.id, NEWS_MORE_CONTENT_COUNT)

@@ -45,7 +45,7 @@ object TestUtil {
         body = body,
         date = "",
         image = null,
-        source = News.Source(UNKNOWN_ID, source)
+        source = News.Source(source, source)
     )
 
     fun createCategories(

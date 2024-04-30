@@ -69,7 +69,7 @@ class NewsFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.latestNews = viewModel.latestNews
-        binding.news = viewModel.news
+        binding.news = viewModel.categoryNews
 
         this.latestNewsAdapter = LatestNewsListAdapter(
             itemClickListener = {
@@ -143,7 +143,7 @@ class NewsFragment : Fragment() {
         viewModel.latestNews.observe(viewLifecycleOwner) { result ->
             latestNewsAdapter.submitList(result?.data)
         }
-        viewModel.news.observe(viewLifecycleOwner) { result ->
+        viewModel.categoryNews.observe(viewLifecycleOwner) { result ->
             newsAdapter.submitList(result?.data)
         }
         viewModel.categories.observe(viewLifecycleOwner) { result ->

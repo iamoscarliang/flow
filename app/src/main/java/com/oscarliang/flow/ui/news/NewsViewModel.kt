@@ -38,7 +38,7 @@ class NewsViewModel(
             )
         }
     }
-    val news: LiveData<Resource<List<News>>> = _categoryState.switchMap { input ->
+    val categoryNews: LiveData<Resource<List<News>>> = _categoryState.switchMap { input ->
         input.ifExists { category, date, count ->
             newsRepository.getNewsByCategory(
                 category = category,
@@ -129,7 +129,7 @@ class NewsViewModel(
         val query: Query
     ) {
         fun <T> ifExists(f: (String, String, Int) -> LiveData<T>): LiveData<T> {
-            return if (category.isBlank()) {
+            return if (category.isBlank() || query.date.isBlank()) {
                 AbsentLiveData.create()
             } else {
                 f(category, query.date, query.count)
