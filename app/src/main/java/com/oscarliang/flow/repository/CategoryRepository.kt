@@ -40,8 +40,8 @@ class CategoryRepository(
                 categoryDao.insertCategories(data)
             }
 
-            override fun shouldFetch(data: List<Category>): Boolean {
-                return data.isEmpty()
+            override fun shouldFetch(data: List<Category>?): Boolean {
+                return data.isNullOrEmpty()
             }
         }.asLiveData()
     }

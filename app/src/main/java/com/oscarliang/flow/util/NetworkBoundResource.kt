@@ -25,11 +25,11 @@ abstract class NetworkBoundResource<ResultType, RequestType> {
         }
     }
 
-    abstract suspend fun query(): ResultType
+    abstract suspend fun query(): ResultType?
     abstract fun queryObservable(): LiveData<ResultType>
     abstract suspend fun fetch(): RequestType
     abstract suspend fun saveFetchResult(data: RequestType)
     open fun onFetchFailed(exception: Exception) = Unit
-    open fun shouldFetch(data: ResultType) = true
+    open fun shouldFetch(data: ResultType?) = true
 
 }

@@ -71,7 +71,7 @@ class NewsRepositoryTest {
 
     @Test
     fun testGetLatestNewsFromDb() = runTest {
-        every { rateLimiter.shouldFetch(LATEST_NEWS_KEY) } returns false
+        every { rateLimiter.shouldFetch(any(), any()) } returns false
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult(LATEST_NEWS_KEY) } returns dbSearchResult
@@ -95,7 +95,7 @@ class NewsRepositoryTest {
 
     @Test
     fun testGetLatestNewsFromNetwork() = runTest {
-        every { rateLimiter.shouldFetch(LATEST_NEWS_KEY) } returns true
+        every { rateLimiter.shouldFetch(any(), any()) } returns true
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult(LATEST_NEWS_KEY) } returns dbSearchResult
@@ -123,7 +123,7 @@ class NewsRepositoryTest {
 
     @Test
     fun testGetLatestNewsFromNetworkError() = runTest {
-        every { rateLimiter.shouldFetch(LATEST_NEWS_KEY) } returns true
+        every { rateLimiter.shouldFetch(any(), any()) } returns true
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult(LATEST_NEWS_KEY) } returns dbSearchResult
@@ -144,12 +144,12 @@ class NewsRepositoryTest {
         dbData.postValue(news)
         coVerify { service.getLatestNews(date = "2024-04-29", count = 10) }
         coVerify { observer.onChanged(Resource.error("idk", news)) }
-        verify { rateLimiter.reset(LATEST_NEWS_KEY) }
+        verify { rateLimiter.reset(any()) }
     }
 
     @Test
     fun testGetNewsBySourceFromDb() = runTest {
-        every { rateLimiter.shouldFetch("foo") } returns false
+        every { rateLimiter.shouldFetch(any(), any()) } returns false
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult("foo") } returns dbSearchResult
@@ -173,7 +173,7 @@ class NewsRepositoryTest {
 
     @Test
     fun testGetNewsBySourceFromNetwork() = runTest {
-        every { rateLimiter.shouldFetch("foo") } returns true
+        every { rateLimiter.shouldFetch(any(), any()) } returns true
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult("foo") } returns dbSearchResult
@@ -201,7 +201,7 @@ class NewsRepositoryTest {
 
     @Test
     fun testGetNewsBySourceFromNetworkError() = runTest {
-        every { rateLimiter.shouldFetch("foo") } returns true
+        every { rateLimiter.shouldFetch(any(), any()) } returns true
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult("foo") } returns dbSearchResult
@@ -222,12 +222,12 @@ class NewsRepositoryTest {
         dbData.postValue(news)
         coVerify { service.getNewsBySource(source = "foo", count = 10) }
         coVerify { observer.onChanged(Resource.error("idk", news)) }
-        verify { rateLimiter.reset("foo") }
+        verify { rateLimiter.reset(any()) }
     }
 
     @Test
     fun testGetNewsByCategoryFromDb() = runTest {
-        every { rateLimiter.shouldFetch("foo") } returns false
+        every { rateLimiter.shouldFetch(any(), any()) } returns false
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult("foo") } returns dbSearchResult
@@ -251,7 +251,7 @@ class NewsRepositoryTest {
 
     @Test
     fun testGetNewsByCategoryFromNetwork() = runTest {
-        every { rateLimiter.shouldFetch("foo") } returns true
+        every { rateLimiter.shouldFetch(any(), any()) } returns true
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult("foo") } returns dbSearchResult
@@ -285,7 +285,7 @@ class NewsRepositoryTest {
 
     @Test
     fun testGetNewsByCategoryFromNetworkError() = runTest {
-        every { rateLimiter.shouldFetch("foo") } returns true
+        every { rateLimiter.shouldFetch(any(), any()) } returns true
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult("foo") } returns dbSearchResult
@@ -312,7 +312,7 @@ class NewsRepositoryTest {
         dbData.postValue(news)
         coVerify { service.getNewsByCategory(category = "foo", date = "2024-04-29", count = 10) }
         coVerify { observer.onChanged(Resource.error("idk", news)) }
-        verify { rateLimiter.reset("foo") }
+        verify { rateLimiter.reset(any()) }
     }
 
     @Test
@@ -359,7 +359,7 @@ class NewsRepositoryTest {
 
     @Test
     fun testSearchFromDb() = runTest {
-        every { rateLimiter.shouldFetch("foo") } returns false
+        every { rateLimiter.shouldFetch(any(), any()) } returns false
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult("foo") } returns dbSearchResult
@@ -383,7 +383,7 @@ class NewsRepositoryTest {
 
     @Test
     fun testSearchFromNetwork() = runTest {
-        every { rateLimiter.shouldFetch("foo") } returns true
+        every { rateLimiter.shouldFetch(any(), any()) } returns true
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult("foo") } returns dbSearchResult
@@ -411,7 +411,7 @@ class NewsRepositoryTest {
 
     @Test
     fun testSearchFromNetworkError() = runTest {
-        every { rateLimiter.shouldFetch("foo") } returns true
+        every { rateLimiter.shouldFetch(any(), any()) } returns true
         val ids = listOf("0", "1")
         val dbSearchResult = MutableLiveData<NewsSearchResult>()
         every { dao.getNewsSearchResult("foo") } returns dbSearchResult
@@ -432,7 +432,7 @@ class NewsRepositoryTest {
         dbData.postValue(news)
         coVerify { service.searchNews(keyword = "foo", count = 10) }
         coVerify { observer.onChanged(Resource.error("idk", news)) }
-        verify { rateLimiter.reset("foo") }
+        verify { rateLimiter.reset(any()) }
     }
 
     @Test

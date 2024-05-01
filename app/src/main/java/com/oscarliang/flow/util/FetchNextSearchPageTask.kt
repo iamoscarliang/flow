@@ -22,7 +22,7 @@ abstract class FetchNextSearchPageTask<T> {
         }
     }
 
-    abstract suspend fun query(): T
+    abstract suspend fun query(): T?
     abstract suspend fun fetchNextPage(data: T)
     abstract fun shouldFetch(data: T): Boolean
 

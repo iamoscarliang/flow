@@ -6,9 +6,11 @@ import java.util.Locale
 
 object TimeConverter {
 
-    fun getTimePassBy(hour: Int): String {
+    fun getTimePassBy(
+        hour: Int,
+        now: Long = System.currentTimeMillis()
+    ): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val now = System.currentTimeMillis()
         val hourInMillis = hour * 60 * 60 * 1000
         val diff = now - hourInMillis
         return dateFormat.format(Date(diff))

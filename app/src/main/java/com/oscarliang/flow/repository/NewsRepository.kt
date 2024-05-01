@@ -69,7 +69,7 @@ class NewsRepository(
                 }
             }
 
-            override fun shouldFetch(data: List<News>): Boolean {
+            override fun shouldFetch(data: List<News>?): Boolean {
                 return rateLimiter.shouldFetch(LATEST_NEWS_KEY)
             }
 
@@ -126,7 +126,7 @@ class NewsRepository(
                 }
             }
 
-            override fun shouldFetch(data: List<News>): Boolean {
+            override fun shouldFetch(data: List<News>?): Boolean {
                 return rateLimiter.shouldFetch(source)
             }
 
@@ -185,7 +185,7 @@ class NewsRepository(
                 }
             }
 
-            override fun shouldFetch(data: List<News>): Boolean {
+            override fun shouldFetch(data: List<News>?): Boolean {
                 return rateLimiter.shouldFetch(category)
             }
 
@@ -285,7 +285,7 @@ class NewsRepository(
                 }
             }
 
-            override fun shouldFetch(data: List<News>): Boolean {
+            override fun shouldFetch(data: List<News>?): Boolean {
                 return rateLimiter.shouldFetch(keyword)
             }
 

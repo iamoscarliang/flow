@@ -8,7 +8,9 @@ class NextPageHandler : Observer<Resource<Boolean>?> {
 
     val loadMoreState = MutableLiveData<LoadMoreState>()
     private var nextPageLiveData: LiveData<Resource<Boolean>?>? = null
-    private var hasMore: Boolean = false
+    private var _hasMore = false
+    val hasMore: Boolean
+        get() = _hasMore
 
     init {
         reset()
@@ -17,7 +19,7 @@ class NextPageHandler : Observer<Resource<Boolean>?> {
     fun queryNextPage(
         nextPageQuery: () -> LiveData<Resource<Boolean>?>
     ) {
-        if (!hasMore) {
+        if (!_hasMore) {
             return
         }
         unregister()
@@ -36,19 +38,19 @@ class NextPageHandler : Observer<Resource<Boolean>?> {
         } else {
             when (value.state) {
                 State.SUCCESS -> {
-                    hasMore = value.data == true
+                    _hasMore = value.data == true
                     unregister()
                     loadMoreState.setValue(
                         LoadMoreState(
                             isRunning = false,
-                            hasMore = hasMore,
+                            hasMore = _hasMore,
                             errorMessage = null
                         )
                     )
                 }
 
                 State.ERROR -> {
-                    hasMore = true
+                    _hasMore = true
                     unregister()
                     loadMoreState.setValue(
                         LoadMoreState(
@@ -73,7 +75,7 @@ class NextPageHandler : Observer<Resource<Boolean>?> {
 
     fun reset() {
         unregister()
-        hasMore = true
+        _hasMore = true
         loadMoreState.value = LoadMoreState(
             isRunning = false,
             hasMore = true,
@@ -83,7 +85,7 @@ class NextPageHandler : Observer<Resource<Boolean>?> {
 
 }
 
-class LoadMoreState(
+data class LoadMoreState(
     val isRunning: Boolean,
     val hasMore: Boolean,
     val errorMessage: String?
