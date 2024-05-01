@@ -2,14 +2,11 @@ package com.oscarliang.flow.util
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import io.mockk.Called
-import io.mockk.clearMocks
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
@@ -37,8 +34,6 @@ class FetchNextSearchPageTaskTest {
     private lateinit var handleShouldFetch: (Foo?) -> Boolean
 
     private lateinit var fetchNextSearchPageTask: FetchNextSearchPageTask<Foo>
-
-    private data class Foo(var value: Int)
 
     @Before
     fun init() {
@@ -111,5 +106,7 @@ class FetchNextSearchPageTaskTest {
         advanceUntilIdle()
         verify { observer.onChanged(Resource.error("idk", true)) }
     }
+
+    private data class Foo(var value: Int)
 
 }
