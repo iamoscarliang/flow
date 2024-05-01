@@ -3,5 +3,6 @@
     <!-- Layout size -->
     <dimen name="layout_latest_news_item_height">350dp</dimen>
     <dimen name="layout_latest_news_bg_height">412.5dp</dimen>
+    <dimen name="layout_ad_medium_item_height">400dp</dimen>
     <dimen name="layout_dialog_width">375dp</dimen>
 </resources>
