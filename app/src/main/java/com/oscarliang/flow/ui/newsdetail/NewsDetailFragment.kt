@@ -5,19 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAd
+import com.oscarliang.flow.R
 import com.oscarliang.flow.databinding.FragmentNewsDetailBinding
 import com.oscarliang.flow.databinding.LayoutAdMediumBinding
 import com.oscarliang.flow.model.News
 import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.ItemClickListener
+import com.oscarliang.flow.ui.common.MenuItemClickListener
 import com.oscarliang.flow.ui.common.NewsMediumAdListAdapter
-import com.oscarliang.flow.ui.news.NewsFragmentDirections
 import com.oscarliang.flow.util.autoCleared
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -65,7 +65,7 @@ class NewsDetailFragment : Fragment() {
             itemClickListener = {
                 findNavController()
                     .navigate(
-                        NewsFragmentDirections.actionToNewsDetailFragment(
+                        NewsDetailFragmentDirections.actionToNewsDetailFragment(
                             it.id
                         )
                     )
@@ -97,7 +97,18 @@ class NewsDetailFragment : Fragment() {
         }
         binding.backListener = object : ClickListener {
             override fun onClick() {
-                NavHostFragment.findNavController(this@NewsDetailFragment).navigateUp()
+                findNavController().navigateUp()
+            }
+        }
+        binding.toolbar.inflateMenu(R.menu.menu_browser)
+        binding.browserListener = object : MenuItemClickListener<News> {
+            override fun onClick(item: News): Boolean {
+                findNavController().navigate(
+                    NewsDetailFragmentDirections.actionNewsDetailFragmentToBrowserFragment(
+                        item.url
+                    )
+                )
+                return true
             }
         }
         binding.bookmarkListener = object : ItemClickListener<News> {

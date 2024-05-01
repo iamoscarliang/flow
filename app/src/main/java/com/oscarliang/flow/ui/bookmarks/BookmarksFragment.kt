@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.oscarliang.flow.databinding.FragmentBookmarksBinding
 import com.oscarliang.flow.ui.common.NewsListAdapter
-import com.oscarliang.flow.ui.news.NewsFragmentDirections
 import com.oscarliang.flow.util.autoCleared
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -38,7 +37,7 @@ class BookmarksFragment : Fragment() {
             itemClickListener = {
                 findNavController()
                     .navigate(
-                        NewsFragmentDirections.actionToNewsDetailFragment(
+                        BookmarksFragmentDirections.actionToNewsDetailFragment(
                             it.id
                         )
                     )

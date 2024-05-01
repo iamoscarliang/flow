@@ -16,6 +16,8 @@ data class News(
     val body: String,
     @SerializedName("date")
     val date: String,
+    @SerializedName("url")
+    val url: String,
     @SerializedName("image")
     val image: String?,
     @Embedded(prefix = "source_")

@@ -21,7 +21,6 @@ import com.oscarliang.flow.databinding.FragmentSearchBinding
 import com.oscarliang.flow.databinding.LayoutAdSmallBinding
 import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.NewsSmallAdListAdapter
-import com.oscarliang.flow.ui.news.NewsFragmentDirections
 import com.oscarliang.flow.util.NEWS_PER_PAGE_COUNT
 import com.oscarliang.flow.util.autoCleared
 import org.koin.android.ext.android.inject
@@ -67,7 +66,7 @@ class SearchFragment : Fragment() {
             itemClickListener = {
                 findNavController()
                     .navigate(
-                        NewsFragmentDirections.actionToNewsDetailFragment(
+                        SearchFragmentDirections.actionToNewsDetailFragment(
                             it.id
                         )
                     )

@@ -63,16 +63,16 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNav?.setupWithNavController(navController)
         binding.navView?.setupWithNavController(navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            (destination.id != R.id.newsDetailFragment).let {
-                binding.appbar.isVisible = it
-                binding.bottomNav?.isVisible = it
-                binding.navView?.isVisible = it
-            }
+            val id = destination.id
+            val showNav = id != R.id.newsDetailFragment && id != R.id.browserFragment
+            binding.appbar.isVisible = showNav
+            binding.bottomNav?.isVisible = showNav
+            binding.navView?.isVisible = showNav
         }
     }
 
     private fun initToolbar() {
-        binding.toolbar.inflateMenu(R.menu.menu_toolbar)
+        binding.toolbar.inflateMenu(R.menu.menu_settings)
         binding.toolbar.setOnMenuItemClickListener {
             navController.navigate(R.id.action_to_settingsDialog)
             true

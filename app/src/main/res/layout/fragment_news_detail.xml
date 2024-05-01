@@ -15,7 +15,11 @@
 
         <import type="com.oscarliang.flow.model.News" />
 
+        <import type="com.oscarliang.flow.ui.common.ClickListener" />
+
         <import type="com.oscarliang.flow.ui.common.ItemClickListener" />
+
+        <import type="com.oscarliang.flow.ui.common.MenuItemClickListener" />
 
         <variable
             name="news"
@@ -27,7 +31,11 @@
 
         <variable
             name="backListener"
-            type="com.oscarliang.flow.ui.common.ClickListener" />
+            type="ClickListener" />
+
+        <variable
+            name="browserListener"
+            type="MenuItemClickListener&lt;News>" />
 
         <variable
             name="bookmarkListener"
@@ -35,7 +43,7 @@
 
         <variable
             name="retryListener"
-            type="com.oscarliang.flow.ui.common.ClickListener" />
+            type="ClickListener" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -75,11 +83,14 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/layout_toolbar_height"
+                    android:paddingStart="@dimen/margin_medium"
                     android:paddingTop="@dimen/interval_small"
+                    android:paddingEnd="@dimen/margin_medium"
                     app:collapseIcon="@drawable/ic_back"
                     app:layout_collapseMode="pin"
                     app:navigationIcon="@drawable/ic_back"
-                    app:navigationOnClickListener="@{() -> backListener.onClick()}" />
+                    app:navigationOnClickListener="@{() -> backListener.onClick()}"
+                    app:onMenuItemClickListener="@{() -> browserListener.onClick(news)}" />
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 

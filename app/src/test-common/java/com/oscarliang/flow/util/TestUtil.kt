@@ -44,6 +44,7 @@ object TestUtil {
         title = title,
         body = body,
         date = "",
+        url = "",
         image = null,
         source = News.Source(source, source)
     )
