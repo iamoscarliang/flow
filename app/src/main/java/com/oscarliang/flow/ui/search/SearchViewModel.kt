@@ -12,6 +12,7 @@ import com.oscarliang.flow.util.LoadMoreState
 import com.oscarliang.flow.util.NextPageHandler
 import com.oscarliang.flow.util.Resource
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class SearchViewModel(
     private val repository: NewsRepository
@@ -35,7 +36,8 @@ class SearchViewModel(
         get() = nextPageHandler.loadMoreState
 
     fun setQuery(keyword: String, count: Int) {
-        val update = Query(keyword, count)
+        val trim = keyword.lowercase(Locale.getDefault()).trim()
+        val update = Query(trim, count)
         if (_query.value == update) {
             return
         }

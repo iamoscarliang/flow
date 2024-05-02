@@ -32,7 +32,7 @@
             type="LiveData&lt;Resource&lt;List&lt;News>>>" />
 
         <variable
-            name="news"
+            name="categoryNews"
             type="LiveData&lt;Resource&lt;List&lt;News>>>" />
     </data>
 
@@ -183,7 +183,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:shimmer_auto_start="true"
-                        app:showHide="@{news.state == State.LOADING}"
+                        app:showHide="@{categoryNews.state == State.LOADING}"
                         tools:visibility="gone">
 
                         <include layout="@layout/layout_news_item_shimmer" />
