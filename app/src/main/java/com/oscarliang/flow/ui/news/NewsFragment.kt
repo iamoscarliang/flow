@@ -69,7 +69,7 @@ class NewsFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.latestNews = viewModel.latestNews
-        binding.news = viewModel.categoryNews
+        binding.categoryNews = viewModel.categoryNews
 
         this.latestNewsAdapter = LatestNewsListAdapter(
             itemClickListener = {
