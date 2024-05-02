@@ -45,7 +45,7 @@
                 android:background="@drawable/ic_label"
                 android:backgroundTint="@color/purple_500"
                 android:ellipsize="end"
-                android:maxLength="20"
+                android:maxLength="30"
                 android:maxLines="1"
                 android:paddingStart="@dimen/margin_small"
                 android:paddingTop="@dimen/margin_small"
