@@ -18,6 +18,10 @@
 ## :pencil: Requirements
 ### newsapi API Key
 Flow uses [newsapi](https://www.newsapi.ai) to load latest news. To use the API, you will need to obtain a free developer API key. See the [newsapi Documentation](https://www.newsapi.ai/documentation) for instructions.
+Once you have the key, add this line to the [Constants](https://github.com/iamoscarliang/flow/blob/master/app/src/main/java/com/oscarliang/flow/util/Constants.kt) file.
+```java
+const val API_KEY = "Your API key"
+```
 
 ## :books: Tech Stack
 - :wrench: Architecture Component [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) & [Livedata](https://developer.android.com/topic/libraries/architecture/livedata)
