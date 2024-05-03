@@ -40,7 +40,7 @@
             android:orientation="vertical"
             app:layoutManager="GridLayoutManager"
             app:spanCount="@integer/column_count"
-            tools:itemCount="12"
+            tools:itemCount="6"
             tools:listitem="@layout/layout_news_item" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
