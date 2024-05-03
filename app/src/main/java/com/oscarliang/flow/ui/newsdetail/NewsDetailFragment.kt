@@ -7,31 +7,22 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.gms.ads.AdLoader
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.nativead.NativeAd
 import com.oscarliang.flow.R
 import com.oscarliang.flow.databinding.FragmentNewsDetailBinding
-import com.oscarliang.flow.databinding.LayoutAdMediumBinding
 import com.oscarliang.flow.model.News
 import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.ItemClickListener
 import com.oscarliang.flow.ui.common.MenuItemClickListener
-import com.oscarliang.flow.ui.common.NewsMediumAdListAdapter
+import com.oscarliang.flow.ui.common.NewsListAdapter
 import com.oscarliang.flow.util.autoCleared
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NewsDetailFragment : Fragment() {
 
     var binding by autoCleared<FragmentNewsDetailBinding>()
     private val viewModel by viewModel<NewsDetailViewModel>()
-    private var newsAdapter by autoCleared<NewsMediumAdListAdapter>()
+    private var newsAdapter by autoCleared<NewsListAdapter>()
     private val params by navArgs<NewsDetailFragmentArgs>()
-
-    private val adBuilder by inject<AdLoader.Builder>()
-    private val adRequest by inject<AdRequest>()
-    private val ads = ArrayList<NativeAd>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,22 +37,13 @@ class NewsDetailFragment : Fragment() {
         return dataBinding.root
     }
 
-    override fun onDestroyView() {
-        // Must call destroy on old ads, otherwise we will have a memory leak
-        ads.forEach {
-            it.destroy()
-        }
-        ads.clear()
-        super.onDestroyView()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.setNewsId(params.newsId)
 
         binding.lifecycleOwner = viewLifecycleOwner
         binding.news = viewModel.news
         binding.moreNews = viewModel.moreNews
-        this.newsAdapter = NewsMediumAdListAdapter(
+        this.newsAdapter = NewsListAdapter(
             itemClickListener = {
                 findNavController()
                     .navigate(
@@ -72,24 +54,7 @@ class NewsDetailFragment : Fragment() {
             },
             bookmarkClickListener = {
                 viewModel.toggleBookmark(it)
-            },
-            adLoadListener = { nativeAd ->
-                // If this callback occurs after the activity is destroyed, we must call
-                // destroy and return or we may get a memory leak
-                if (isDetached
-                    || activity == null
-                    || requireActivity().isDestroyed
-                    || requireActivity().isFinishing
-                    || requireActivity().isChangingConfigurations
-                ) {
-                    nativeAd.destroy()
-                    return@NewsMediumAdListAdapter null
-                }
-                ads.add(nativeAd)
-                LayoutAdMediumBinding.inflate(layoutInflater)
-            },
-            adBuilder = adBuilder,
-            adRequest = adRequest
+            }
         )
         binding.moreNewsList.apply {
             adapter = newsAdapter

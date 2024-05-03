@@ -8,22 +8,17 @@ import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.gms.ads.AdLoader
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.material.snackbar.Snackbar
 import com.oscarliang.flow.databinding.FragmentNewsBinding
-import com.oscarliang.flow.databinding.LayoutAdSmallBinding
 import com.oscarliang.flow.ui.common.CategoryListAdapter
 import com.oscarliang.flow.ui.common.ClickListener
 import com.oscarliang.flow.ui.common.LatestNewsListAdapter
-import com.oscarliang.flow.ui.common.NewsSmallAdListAdapter
+import com.oscarliang.flow.ui.common.NewsListAdapter
 import com.oscarliang.flow.util.NEWS_LATEST_COUNT
 import com.oscarliang.flow.util.NEWS_LATEST_TIME
 import com.oscarliang.flow.util.NEWS_PER_PAGE_COUNT
 import com.oscarliang.flow.util.TimeConverter.getTimePassBy
 import com.oscarliang.flow.util.autoCleared
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.math.abs
 import kotlin.math.max
@@ -33,12 +28,8 @@ class NewsFragment : Fragment() {
     var binding by autoCleared<FragmentNewsBinding>()
     private val viewModel by viewModel<NewsViewModel>()
     private var latestNewsAdapter by autoCleared<LatestNewsListAdapter>()
-    private var newsAdapter by autoCleared<NewsSmallAdListAdapter>()
+    private var newsAdapter by autoCleared<NewsListAdapter>()
     private var categoryAdapter by autoCleared<CategoryListAdapter>()
-
-    private val adBuilder by inject<AdLoader.Builder>()
-    private val adRequest by inject<AdRequest>()
-    private val ads = ArrayList<NativeAd>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,15 +42,6 @@ class NewsFragment : Fragment() {
         )
         binding = dataBinding
         return dataBinding.root
-    }
-
-    override fun onDestroyView() {
-        // Must call destroy on old ads, otherwise we will have a memory leak
-        ads.forEach {
-            it.destroy()
-        }
-        ads.clear()
-        super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -84,7 +66,7 @@ class NewsFragment : Fragment() {
                 viewModel.toggleBookmark(it)
             }
         )
-        this.newsAdapter = NewsSmallAdListAdapter(
+        this.newsAdapter = NewsListAdapter(
             itemClickListener = {
                 findNavController()
                     .navigate(
@@ -95,24 +77,7 @@ class NewsFragment : Fragment() {
             },
             bookmarkClickListener = {
                 viewModel.toggleBookmark(it)
-            },
-            adLoadListener = { nativeAd ->
-                // If this callback occurs after the activity is destroyed, we must call
-                // destroy and return or we may get a memory leak
-                if (isDetached
-                    || activity == null
-                    || requireActivity().isDestroyed
-                    || requireActivity().isFinishing
-                    || requireActivity().isChangingConfigurations
-                ) {
-                    nativeAd.destroy()
-                    return@NewsSmallAdListAdapter null
-                }
-                ads.add(nativeAd)
-                LayoutAdSmallBinding.inflate(layoutInflater)
-            },
-            adBuilder = adBuilder,
-            adRequest = adRequest
+            }
         )
         this.categoryAdapter = CategoryListAdapter(
             itemClickListener = {
@@ -169,7 +134,7 @@ class NewsFragment : Fragment() {
                 binding.hasMore = state.hasMore
                 val error = state.errorMessageIfNotHandled
                 if (error != null) {
-                    Snackbar.make(binding.coordinatorLayout, error, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).show()
                 }
             }
         }

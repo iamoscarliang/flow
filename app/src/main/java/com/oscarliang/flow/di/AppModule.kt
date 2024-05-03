@@ -2,8 +2,6 @@ package com.oscarliang.flow.di
 
 import android.content.Context
 import androidx.room.Room
-import com.google.android.gms.ads.AdLoader
-import com.google.android.gms.ads.AdRequest
 import com.oscarliang.flow.MainViewModel
 import com.oscarliang.flow.api.NewsService
 import com.oscarliang.flow.db.NewsDatabase
@@ -15,7 +13,6 @@ import com.oscarliang.flow.ui.news.NewsViewModel
 import com.oscarliang.flow.ui.newsdetail.NewsDetailViewModel
 import com.oscarliang.flow.ui.search.SearchViewModel
 import com.oscarliang.flow.ui.settings.SettingsViewModel
-import com.oscarliang.flow.util.AD_ID
 import com.oscarliang.flow.util.DB_NAME
 import com.oscarliang.flow.util.NEWS_URL
 import com.oscarliang.flow.util.PREFERENCE_NAME
@@ -29,14 +26,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 val appModule = module {
-
-    factory {
-        AdRequest.Builder().build()
-    }
-
-    single {
-        AdLoader.Builder(androidContext(), AD_ID)
-    }
 
     single {
         Retrofit.Builder()

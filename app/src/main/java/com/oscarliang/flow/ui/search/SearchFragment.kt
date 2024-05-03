@@ -12,29 +12,20 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.gms.ads.AdLoader
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.material.snackbar.Snackbar
 import com.oscarliang.flow.R
 import com.oscarliang.flow.databinding.FragmentSearchBinding
-import com.oscarliang.flow.databinding.LayoutAdSmallBinding
 import com.oscarliang.flow.ui.common.ClickListener
-import com.oscarliang.flow.ui.common.NewsSmallAdListAdapter
+import com.oscarliang.flow.ui.common.NewsListAdapter
 import com.oscarliang.flow.util.NEWS_PER_PAGE_COUNT
 import com.oscarliang.flow.util.autoCleared
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SearchFragment : Fragment() {
 
     var binding by autoCleared<FragmentSearchBinding>()
     private val viewModel by viewModel<SearchViewModel>()
-    private var newsAdapter by autoCleared<NewsSmallAdListAdapter>()
-
-    private val adBuilder by inject<AdLoader.Builder>()
-    private val adRequest by inject<AdRequest>()
-    private val ads = ArrayList<NativeAd>()
+    private var newsAdapter by autoCleared<NewsListAdapter>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,20 +40,11 @@ class SearchFragment : Fragment() {
         return dataBinding.root
     }
 
-    override fun onDestroyView() {
-        // Must call destroy on old ads, otherwise we will have a memory leak
-        ads.forEach {
-            it.destroy()
-        }
-        ads.clear()
-        super.onDestroyView()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.searchResults = viewModel.searchResults
 
-        this.newsAdapter = NewsSmallAdListAdapter(
+        this.newsAdapter = NewsListAdapter(
             itemClickListener = {
                 findNavController()
                     .navigate(
@@ -73,24 +55,7 @@ class SearchFragment : Fragment() {
             },
             bookmarkClickListener = {
                 viewModel.toggleBookmark(it)
-            },
-            adLoadListener = { nativeAd ->
-                // If this callback occurs after the activity is destroyed, we must call
-                // destroy and return or we may get a memory leak
-                if (isDetached
-                    || activity == null
-                    || requireActivity().isDestroyed
-                    || requireActivity().isFinishing
-                    || requireActivity().isChangingConfigurations
-                ) {
-                    nativeAd.destroy()
-                    return@NewsSmallAdListAdapter null
-                }
-                ads.add(nativeAd)
-                LayoutAdSmallBinding.inflate(layoutInflater)
-            },
-            adBuilder = adBuilder,
-            adRequest = adRequest
+            }
         )
         binding.newsList.apply {
             adapter = newsAdapter
@@ -125,7 +90,7 @@ class SearchFragment : Fragment() {
                 binding.hasMore = state.hasMore
                 val error = state.errorMessageIfNotHandled
                 if (error != null) {
-                    Snackbar.make(binding.coordinatorLayout, error, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
@@ -155,7 +120,7 @@ class SearchFragment : Fragment() {
         val query = binding.editSearch.text.toString()
         if (query.isBlank()) {
             val msg = getString(R.string.empty_search)
-            Snackbar.make(binding.coordinatorLayout, msg, Snackbar.LENGTH_LONG).show()
+            Snackbar.make(binding.root, msg, Snackbar.LENGTH_LONG).show()
         } else {
             viewModel.setQuery(query, NEWS_PER_PAGE_COUNT)
         }
