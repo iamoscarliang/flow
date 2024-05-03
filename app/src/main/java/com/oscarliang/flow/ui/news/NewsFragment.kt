@@ -134,7 +134,7 @@ class NewsFragment : Fragment() {
                 binding.hasMore = state.hasMore
                 val error = state.errorMessageIfNotHandled
                 if (error != null) {
-                    Snackbar.make(binding.root, error, Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.coordinatorLayout, error, Snackbar.LENGTH_LONG).show()
                 }
             }
         }
