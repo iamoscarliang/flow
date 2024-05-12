@@ -169,7 +169,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/text_more_news"
-                    app:listener="@{retryListener}"
+                    app:retryListener="@{retryListener}"
                     app:resource="@{moreNews}"
                     tools:visibility="gone" />
 

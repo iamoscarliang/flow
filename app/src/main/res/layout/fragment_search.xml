@@ -16,15 +16,15 @@
         <import type="com.oscarliang.flow.model.News" />
 
         <variable
-            name="isRunning"
-            type="boolean" />
+            name="lodeMoreState"
+            type="com.oscarliang.flow.util.LoadMoreState" />
 
         <variable
-            name="hasMore"
-            type="boolean" />
+            name="retryListener"
+            type="com.oscarliang.flow.ui.common.ClickListener" />
 
         <variable
-            name="listener"
+            name="retryNextPageListener"
             type="com.oscarliang.flow.ui.common.ClickListener" />
 
         <variable
@@ -101,11 +101,11 @@
                     layout="@layout/layout_loading_state"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/layout_loading_state_height"
-                    app:hasMore="@{hasMore}"
-                    app:isRunning="@{isRunning}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:loadMoreState="@{lodeMoreState}"
+                    app:retryListener="@{retryNextPageListener}" />
 
                 <com.facebook.shimmer.ShimmerFrameLayout
                     android:id="@+id/shimmer_layout"
@@ -151,8 +151,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:listener="@{listener}"
             app:resource="@{searchResults}"
+            app:retryListener="@{retryListener}"
             tools:visibility="gone" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

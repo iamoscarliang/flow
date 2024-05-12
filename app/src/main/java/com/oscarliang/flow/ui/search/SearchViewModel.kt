@@ -58,6 +58,11 @@ class SearchViewModel(
         }
     }
 
+    fun retryNextPage() {
+        nextPageHandler.reset()
+        loadNextPage()
+    }
+
     fun retry() {
         _query.value?.let {
             _query.value = it

@@ -61,9 +61,14 @@ class SearchFragment : Fragment() {
             adapter = newsAdapter
             itemAnimator?.changeDuration = 0
         }
-        binding.listener = object : ClickListener {
+        binding.retryListener = object : ClickListener {
             override fun onClick() {
                 viewModel.retry()
+            }
+        }
+        binding.retryNextPageListener = object : ClickListener {
+            override fun onClick() {
+                viewModel.retryNextPage()
             }
         }
         initRecyclerView()
@@ -82,12 +87,8 @@ class SearchFragment : Fragment() {
             }
         }
         viewModel.loadMoreState.observe(viewLifecycleOwner) { state ->
-            if (state == null) {
-                binding.isRunning = false
-                binding.hasMore = false
-            } else {
-                binding.isRunning = state.isRunning
-                binding.hasMore = state.hasMore
+            if (state != null) {
+                binding.lodeMoreState = state
                 val error = state.errorMessageIfNotHandled
                 if (error != null) {
                     Snackbar.make(binding.coordinatorLayout, error, Snackbar.LENGTH_LONG).show()

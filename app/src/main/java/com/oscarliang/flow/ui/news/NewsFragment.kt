@@ -96,6 +96,11 @@ class NewsFragment : Fragment() {
                 viewModel.refresh()
             }
         }
+        binding.retryNextPageListener = object : ClickListener {
+            override fun onClick() {
+                viewModel.retryNextPage()
+            }
+        }
         binding.dotsIndicator.attachTo(binding.latestNewsList)
         binding.appbar.addOnOffsetChangedListener { _, verticalOffset ->
             binding.swipeRefreshLayout.isEnabled = verticalOffset == 0
@@ -126,12 +131,8 @@ class NewsFragment : Fragment() {
             }
         }
         viewModel.loadMoreState.observe(viewLifecycleOwner) { state ->
-            if (state == null) {
-                binding.isRunning = false
-                binding.hasMore = false
-            } else {
-                binding.isRunning = state.isRunning
-                binding.hasMore = state.hasMore
+            if (state != null) {
+                binding.lodeMoreState = state
                 val error = state.errorMessageIfNotHandled
                 if (error != null) {
                     Snackbar.make(binding.coordinatorLayout, error, Snackbar.LENGTH_LONG).show()

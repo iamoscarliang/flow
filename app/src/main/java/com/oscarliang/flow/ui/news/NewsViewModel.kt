@@ -84,6 +84,11 @@ class NewsViewModel(
         }
     }
 
+    fun retryNextPage() {
+        nextPageHandler.reset()
+        loadNextPage()
+    }
+
     fun refresh() {
         _query.value?.let {
             _query.value = it

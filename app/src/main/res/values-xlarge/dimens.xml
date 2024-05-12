@@ -6,9 +6,7 @@
     <dimen name="layout_category_item_height">60dp</dimen>
     <dimen name="layout_category_bg_height">75dp</dimen>
     <dimen name="layout_news_item_height">180dp</dimen>
-    <dimen name="layout_ad_small_item_height">180dp</dimen>
-    <dimen name="layout_ad_medium_item_height">540dp</dimen>
-    <dimen name="layout_loading_state_height">105dp</dimen>
+    <dimen name="layout_loading_state_height">120dp</dimen>
     <dimen name="layout_toolbar_height">150dp</dimen>
     <dimen name="layout_dialog_width">480dp</dimen>
 

@@ -8,9 +8,6 @@ class NextPageHandler : Observer<Resource<Boolean>?> {
 
     val loadMoreState = MutableLiveData<LoadMoreState>()
     private var nextPageLiveData: LiveData<Resource<Boolean>?>? = null
-    private var _hasMore = false
-    val hasMore: Boolean
-        get() = _hasMore
 
     init {
         reset()
@@ -19,7 +16,8 @@ class NextPageHandler : Observer<Resource<Boolean>?> {
     fun queryNextPage(
         nextPageQuery: () -> LiveData<Resource<Boolean>?>
     ) {
-        if (!_hasMore) {
+        val current = loadMoreState.value
+        if (current == null || current.isRunning || !current.hasMore) {
             return
         }
         unregister()
@@ -38,24 +36,22 @@ class NextPageHandler : Observer<Resource<Boolean>?> {
         } else {
             when (value.state) {
                 State.SUCCESS -> {
-                    _hasMore = value.data == true
                     unregister()
                     loadMoreState.setValue(
                         LoadMoreState(
                             isRunning = false,
-                            hasMore = _hasMore,
+                            hasMore = value.data == true,
                             errorMessage = null
                         )
                     )
                 }
 
                 State.ERROR -> {
-                    _hasMore = true
                     unregister()
                     loadMoreState.setValue(
                         LoadMoreState(
                             isRunning = false,
-                            hasMore = true,
+                            hasMore = false,
                             errorMessage = value.message
                         )
                     )
@@ -68,19 +64,18 @@ class NextPageHandler : Observer<Resource<Boolean>?> {
         }
     }
 
-    private fun unregister() {
-        nextPageLiveData?.removeObserver(this)
-        nextPageLiveData = null
-    }
-
     fun reset() {
         unregister()
-        _hasMore = true
         loadMoreState.value = LoadMoreState(
             isRunning = false,
             hasMore = true,
             errorMessage = null
         )
+    }
+
+    private fun unregister() {
+        nextPageLiveData?.removeObserver(this)
+        nextPageLiveData = null
     }
 
 }

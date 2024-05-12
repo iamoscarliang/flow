@@ -1,15 +1,16 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
-            name="isRunning"
-            type="boolean" />
+            name="loadMoreState"
+            type="com.oscarliang.flow.util.LoadMoreState" />
 
         <variable
-            name="hasMore"
-            type="boolean" />
+            name="retryListener"
+            type="com.oscarliang.flow.ui.common.ClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,20 +28,38 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showHide="@{isRunning}" />
+            app:showHide="@{loadMoreState.running}" />
 
         <TextView
+            android:id="@+id/text_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_large"
-            android:text="@string/no_more_result"
+            android:gravity="center"
+            android:text="@{loadMoreState.errorMessage ?? @string/no_more_result}"
             android:textColor="?attr/colorSecondary"
-            android:textSize="@dimen/text_title_small"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="@dimen/text_body_small"
+            app:layout_constraintBottom_toTopOf="@id/btn_retry"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showHide="@{!hasMore}" />
+            app:showHide="@{!loadMoreState.hasMore}"
+            tools:text="Loading message" />
+
+        <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorSecondary"
+            android:onClick="@{() -> retryListener.onClick()}"
+            android:text="@string/retry"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_body_small"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_message"
+            app:showHide="@{loadMoreState.errorMessage != null}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

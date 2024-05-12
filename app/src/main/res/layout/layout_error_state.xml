@@ -13,7 +13,7 @@
         <import type="com.oscarliang.flow.util.State" />
 
         <variable
-            name="listener"
+            name="retryListener"
             type="com.oscarliang.flow.ui.common.ClickListener" />
 
         <variable
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:backgroundTint="?attr/colorSecondary"
-            android:onClick="@{() -> listener.onClick()}"
+            android:onClick="@{() -> retryListener.onClick()}"
             android:text="@string/retry"
             android:textAllCaps="false"
             android:textColor="@color/white"
