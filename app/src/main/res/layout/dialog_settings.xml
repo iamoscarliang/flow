@@ -80,32 +80,35 @@
                     android:id="@+id/btn_default"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@{darkMode == DarkMode.DEFAULT ? @color/purple_500 : @color/gray_700}"
                     android:checked="@{darkMode == DarkMode.DEFAULT}"
                     android:text="@string/dark_mode_default"
                     android:textColor="?attr/colorSecondaryVariant"
                     android:textSize="@dimen/text_body_small"
-                    app:buttonTint="?attr/colorOnPrimary"
+                    tools:buttonTint="@color/purple_500"
                     tools:checked="true" />
 
                 <RadioButton
                     android:id="@+id/btn_light"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@{darkMode == DarkMode.LIGHT ? @color/purple_500 : @color/gray_700}"
                     android:checked="@{darkMode == DarkMode.LIGHT}"
                     android:text="@string/dark_mode_light"
                     android:textColor="?attr/colorSecondaryVariant"
                     android:textSize="@dimen/text_body_small"
-                    app:buttonTint="?attr/colorOnPrimary" />
+                    tools:buttonTint="@color/gray_700" />
 
                 <RadioButton
                     android:id="@+id/btn_dark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:buttonTint="@{darkMode == DarkMode.DARK ? @color/purple_500 : @color/gray_700}"
                     android:checked="@{darkMode == DarkMode.DARK}"
                     android:text="@string/dark_mode_dark"
                     android:textColor="?attr/colorSecondaryVariant"
                     android:textSize="@dimen/text_body_small"
-                    app:buttonTint="?attr/colorOnPrimary" />
+                    tools:buttonTint="@color/gray_700" />
 
             </RadioGroup>
 
