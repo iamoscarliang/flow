@@ -41,7 +41,7 @@
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/app_fg">
+            android:background="?attr/colorPrimary">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -54,17 +54,17 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_medium"
                     android:src="@drawable/ic_search"
-                    app:tint="@color/gray_500" />
+                    app:tint="?attr/colorSecondary" />
 
                 <EditText
                     android:id="@+id/edit_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/gray_500"
+                    android:backgroundTint="?attr/colorSecondary"
                     android:hint="@string/search_hint"
                     android:imeOptions="actionSearch"
                     android:inputType="textNoSuggestions"
-                    android:textColor="@color/black"
+                    android:textColor="?attr/colorOnSecondary"
                     android:textCursorDrawable="@null" />
 
             </androidx.appcompat.widget.Toolbar>
@@ -140,7 +140,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/empty_search_result"
-            android:textColor="@color/gray_500"
+            android:textColor="?attr/colorSecondary"
             android:textSize="@dimen/text_title_small"
             app:showHide="@{searchResults.state == State.SUCCESS &amp;&amp; searchResults.data.size == 0}"
             tools:visibility="gone" />

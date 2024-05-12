@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/no_bookmarks"
-            android:textColor="@color/gray_500"
+            android:textColor="?attr/colorSecondary"
             android:textSize="@dimen/text_title_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

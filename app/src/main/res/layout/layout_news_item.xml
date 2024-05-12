@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:background="@drawable/ic_label"
-                android:backgroundTint="@color/purple_500"
+                android:backgroundTint="?attr/colorOnPrimary"
                 android:ellipsize="end"
                 android:maxLength="20"
                 android:maxLines="1"
@@ -71,7 +71,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:background="@drawable/ic_bookmark_border"
-                tools:backgroundTint="@color/gray_500" />
+                tools:backgroundTint="?attr/colorSecondary" />
 
             <TextView
                 android:id="@+id/text_title"
@@ -80,7 +80,7 @@
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:text="@{news.title}"
-                android:textColor="@color/black"
+                android:textColor="?attr/colorOnSecondary"
                 android:textSize="@dimen/text_body_small"
                 app:layout_constraintBottom_toTopOf="@+id/text_date"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{news.date}"
-                android:textColor="@color/gray_700"
+                android:textColor="?attr/colorSecondaryVariant"
                 android:textSize="@dimen/text_body_small"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/text_title"

@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_label"
-                android:backgroundTint="@color/purple_500"
+                android:backgroundTint="?attr/colorOnPrimary"
                 android:ellipsize="end"
                 android:maxLength="30"
                 android:maxLines="1"

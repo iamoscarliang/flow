@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@{resource.message ?? @string/unknown_error}"
-            android:textColor="@color/gray_500"
+            android:textColor="?attr/colorSecondary"
             android:textSize="@dimen/text_body_small"
             tools:text="Error" />
 
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-            android:backgroundTint="@color/gray_500"
+            android:backgroundTint="?attr/colorSecondary"
             android:onClick="@{() -> listener.onClick()}"
             android:text="@string/retry"
             android:textAllCaps="false"

@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_label"
-            android:backgroundTint="@{category.selected ? @color/purple_500 : @color/app_bg}"
+            android:backgroundTint="@{category.selected ? @color/purple_500 : @android:color/transparent}"
             android:padding="@dimen/margin_medium"
             android:text="@{category.name}"
             android:textColor="@{category.selected ? @color/white : @color/gray_500}"
@@ -32,9 +32,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:backgroundTint="@color/app_bg"
             tools:text="Category"
-            tools:textColor="@color/gray_500" />
+            tools:textColor="?attr/colorSecondary" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

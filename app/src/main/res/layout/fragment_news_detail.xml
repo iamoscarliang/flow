@@ -100,7 +100,7 @@
             android:id="@+id/nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/app_bg"
+            android:background="?attr/colorOnBackground"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -123,7 +123,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_large"
                     android:text="@string/more_news"
-                    android:textColor="@color/gray_700"
+                    android:textColor="?attr/colorSecondaryVariant"
                     android:textSize="@dimen/text_body_large"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layout_news_detail" />
@@ -191,7 +191,7 @@
             app:layout_anchor="@id/appbar"
             app:layout_anchorGravity="right|bottom"
             app:tint="@color/white"
-            tools:backgroundTint="@color/gray_500"
+            tools:backgroundTint="?attr/colorSecondary"
             tools:src="@drawable/ic_bookmark_border" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
